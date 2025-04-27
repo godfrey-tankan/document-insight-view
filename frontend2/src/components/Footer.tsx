@@ -32,7 +32,7 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          
+
           <div className="col-span-1">
             <h3 className="font-bold text-lg mb-4">Features</h3>
             <ul className="space-y-2">
@@ -43,7 +43,7 @@ const Footer = () => {
               <li><a href="#" className="text-teal-200 hover:text-white">Batch Processing</a></li>
             </ul>
           </div>
-          
+
           <div className="col-span-1">
             <h3 className="font-bold text-lg mb-4">Resources</h3>
             <ul className="space-y-2">
@@ -54,7 +54,7 @@ const Footer = () => {
               <li><a href="#" className="text-teal-200 hover:text-white">Pricing & Plans</a></li>
             </ul>
           </div>
-          
+
           <div className="col-span-1">
             <h3 className="font-bold text-lg mb-4">Company</h3>
             <ul className="space-y-2">
@@ -66,7 +66,7 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        
+
         <div className="border-t border-teal-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-teal-300">&copy; 2025 DocuVerify. All rights reserved.</p>
           <div className="mt-4 md:mt-0 flex space-x-6">

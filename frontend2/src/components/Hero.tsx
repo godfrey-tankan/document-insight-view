@@ -26,16 +26,25 @@ const Hero = () => {
             </Button>
           </div>
         </div>
-        <div className="w-full md:w-1/2 py-6 flex justify-center">
-          <div className="h-64 w-full md:w-4/5 bg-white bg-opacity-10 rounded-xl backdrop-filter backdrop-blur-md border border-white border-opacity-20 shadow-2xl flex items-center justify-center animate-slide-up">
-            <div className="p-8 text-center">
-              <div className="text-5xl font-bold mb-4 text-teal-600">99.8%</div>
-              <p className="text-lg">Detection Accuracy</p>
+
+
+        <div className="w-full py-6 flex justify-center">
+          <div className="w-full max-w-2xl bg-white bg-opacity-10 rounded-xl backdrop-filter backdrop-blur-md border border-white border-opacity-20 shadow-2xl flex flex-col md:flex-row items-center justify-center animate-slide-up p-4">
+            <div className="p-4 md:p-8 text-center flex-1">
+              <div className="text-3xl md:text-5xl font-bold mb-2 md:mb-4 text-teal-600">
+                99.8%
+              </div>
+              <p className="text-sm md:text-lg">Detection Accuracy</p>
             </div>
-            <div className="border-r border-white border-opacity-20 h-20 mx-6"></div>
-            <div className="p-8 text-center">
-              <div className="text-5xl font-bold mb-4 text-teal-600">3M+</div>
-              <p className="text-lg">Documents Analyzed</p>
+
+            <div className="hidden md:block border-r border-white border-opacity-20 h-20 mx-2 md:mx-6"></div>
+            <div className="md:hidden w-full border-t border-white border-opacity-20 my-4"></div>
+
+            <div className="p-4 md:p-8 text-center flex-1">
+              <div className="text-3xl md:text-5xl font-bold mb-2 md:mb-4 text-teal-600">
+                3M+
+              </div>
+              <p className="text-sm md:text-lg">Documents Analyzed</p>
             </div>
           </div>
         </div>
