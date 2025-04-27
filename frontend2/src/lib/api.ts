@@ -29,4 +29,16 @@ api.interceptors.response.use(
   }
 )
 
+export const analyzeDocument = async (file: File) => {
+  const formData = new FormData();
+  formData.append('document', file);
+
+  const response = await api.post('/analyze/', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+  return response.data;
+};
+
 export default api

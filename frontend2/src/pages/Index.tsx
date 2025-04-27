@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import { DocumentAnalysis } from '@/types/analysis';
 import { sampleAnalysis } from '@/utils/demoData';
 import { useToast } from '@/components/ui/use-toast';
+import { analyzeDocument } from '@/lib/api';
 
 const Index = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -23,25 +24,35 @@ const Index = () => {
     }
   }, [navigate]);
 
-  const handleAnalyzeDocument = (file: File) => {
+  const handleAnalyzeDocument = async (file: File) => {
     setIsAnalyzing(true);
 
-    // Simulated analysis process
-    toast({
-      title: "Analysis Started",
-      description: `Analyzing ${file.name}...`,
-    });
+    try {
+      toast({
+        title: "Analysis Started",
+        description: `Analyzing ${file.name}...`,
+      });
 
-    setTimeout(() => {
-      // In a real application, this would be an API call
-      setAnalysisResult(sampleAnalysis);
-      setIsAnalyzing(false);
+      const result = await analyzeDocument(file);
+      setAnalysisResult({
+        ...result,
+        fileName: file.name,
+        analyzedAt: new Date().toISOString()
+      });
 
       toast({
         title: "Analysis Complete",
         description: "Your document has been analyzed successfully.",
       });
-    }, 2500);
+    } catch (error) {
+      toast({
+        title: "Analysis Failed",
+        description: error.response?.data?.error || "Failed to analyze document",
+        variant: "destructive"
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (
