@@ -44,6 +44,7 @@ const SignUpForm = () => {
           title: "Signup Successful",
           description: "Please Login!",
         });
+        navigate('/login');
         return;
       }
 

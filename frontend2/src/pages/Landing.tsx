@@ -2,36 +2,15 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FileText, Shield, Zap } from "lucide-react";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 
 const Landing = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Navbar */}
-      <nav className="bg-white border-b py-4 px-6 shadow-sm">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <FileText className="h-6 w-6 text-teal-600" />
-            <span className="text-xl font-bold text-gray-800">DocuVerify</span>
-          </div>
-          <div className="flex space-x-4">
-            <Button 
-              variant="outline" 
-              className="border-teal-600 text-teal-600 hover:bg-teal-50"
-              onClick={() => navigate('/login')}
-            >
-              Login
-            </Button>
-            <Button 
-              className="bg-teal-600 text-white hover:bg-teal-700"
-              onClick={() => navigate('/signup')}
-            >
-              Sign Up
-            </Button>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <section className="py-20 px-6">
@@ -43,7 +22,7 @@ const Landing = () => {
           <p className="text-xl md:text-2xl mb-12 text-gray-600 max-w-3xl mx-auto">
             Our advanced AI-powered system helps you ensure content originality and detect AI-generated text with unmatched accuracy.
           </p>
-          <Button 
+          <Button
             className="bg-teal-600 text-white hover:bg-teal-700 text-lg py-6 px-8"
             onClick={() => navigate('/signup')}
           >
@@ -85,19 +64,7 @@ const Landing = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t py-12">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <FileText className="h-6 w-6 text-teal-600" />
-              <span className="text-xl font-bold text-gray-800">DocuVerify</span>
-            </div>
-            <div className="text-gray-600">
-              © 2025 DocuVerify. All rights reserved.
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
