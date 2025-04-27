@@ -16,16 +16,25 @@ from .utils import (
     check_ai_probability,
     calculate_document_stats
 )
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from rest_framework_simplejwt.tokens import AccessToken
 
+@method_decorator(csrf_exempt, name='dispatch')
 class AnalyzeDocumentView(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    
+
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1Nzc4OTAyLCJpYXQiOjE3NDU3Nzg2MDIsImp0aSI6ImNmNmVmYjRiNjkzMzRjZjI4OGRmZWIwMjQ3NzFiZTllIiwidXNlcl9pZCI6MX0.lI-Pz3yWoVALhTPaoyXcbiE6V1593LknCYGoPFOR-t0"
+    try:
+        decoded = AccessToken(token)
+        print(decoded.payload)  # Check expiration (exp) and user_id
+    except Exception as e:
+        print("Invalid token:", e)
+        authentication_classes = [JWTAuthentication]  # Add JWT authentication
+        permission_classes = [IsAuthenticated]        # Require authenticated users
+
     def post(self, request):
-        print("AnalyzeDocumentView initialized",self.request.user)
-        print("AnalyzeDocumentView called")
-        if not request.user.is_authenticated:
-            return Response({"error": "Authentication credentials were not provided."}, status=status.HTTP_401_UNAUTHORIZED)
-        
+        # Remove the manual authentication check
         # Get uploaded file
         file = request.FILES.get('document')
         if not file:
@@ -92,6 +101,7 @@ class DocumentViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], url_path='analyze')
     def analyze(self, request):
+        print("Authenticated User:", request.user)
         """Custom analysis endpoint"""
         # Your existing analysis logic from AnalyzeDocumentView
         file = request.FILES.get('document')

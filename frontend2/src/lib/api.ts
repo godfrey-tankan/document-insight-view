@@ -3,9 +3,7 @@ import axios from 'axios'
 
 const api = axios.create({
   baseURL: 'http://localhost:8000/api/',
-  headers: {
-    'Content-Type': 'application/json'
-  }
+
 })
 
 export function logoutUser() {
@@ -40,5 +38,6 @@ export const analyzeDocument = async (file: File) => {
   });
   return response.data;
 };
+
 
 export default api

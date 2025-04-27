@@ -5,7 +5,11 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserRegistrationSerializer, UserLoginSerializer
 from django.contrib.auth import authenticate
 
-class RegistrationView(APIView):
+class BaseView(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+class RegistrationView(BaseView):
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
@@ -20,7 +24,8 @@ class RegistrationView(APIView):
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class LoginView(APIView):
+class LoginView(BaseView):
+
     def post(self, request):
         serializer = UserLoginSerializer(data=request.data)
         
