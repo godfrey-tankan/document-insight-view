@@ -6,7 +6,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from .models import Document
-from .serializers import DocumentSerializer  # Make sure you have this serializer
+from .serializers import DocumentSerializer 
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 from .utils import (
     extract_text_from_file,
     analyze_text,
@@ -15,11 +18,13 @@ from .utils import (
 )
 
 class AnalyzeDocumentView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
-        print("AnalyzeDocumentView called",request.user)
-        # Authentication check
+        print("AnalyzeDocumentView initialized",self.request.user)
+        print("AnalyzeDocumentView called")
         if not request.user.is_authenticated:
-            return Response({"error": "Authentication required"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"error": "Authentication credentials were not provided."}, status=status.HTTP_401_UNAUTHORIZED)
         
         # Get uploaded file
         file = request.FILES.get('document')
