@@ -14,28 +14,29 @@ const Index = () => {
   const [analysisResult, setAnalysisResult] = useState<DocumentAnalysis | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-    const isAuthenticated = false; // Replace with your actual auth check
+    const isAuthenticated = localStorage.getItem('access_token') !== null;
+
     if (!isAuthenticated) {
-      navigate('/auth');
+      navigate('/login');
     }
   }, [navigate]);
 
   const handleAnalyzeDocument = (file: File) => {
     setIsAnalyzing(true);
-    
+
     // Simulated analysis process
     toast({
       title: "Analysis Started",
       description: `Analyzing ${file.name}...`,
     });
-    
+
     setTimeout(() => {
       // In a real application, this would be an API call
       setAnalysisResult(sampleAnalysis);
       setIsAnalyzing(false);
-      
+
       toast({
         title: "Analysis Complete",
         description: "Your document has been analyzed successfully.",
@@ -47,22 +48,22 @@ const Index = () => {
     <div className="min-h-screen flex flex-col bg-teal-50">
       <Navbar />
       <Hero />
-      
+
       <main className="flex-grow py-12">
         <div className="container mx-auto px-6 space-y-8">
           <div className="max-w-3xl mx-auto">
-            <DocumentUpload 
-              onAnalyze={handleAnalyzeDocument} 
-              isAnalyzing={isAnalyzing} 
+            <DocumentUpload
+              onAnalyze={handleAnalyzeDocument}
+              isAnalyzing={isAnalyzing}
             />
           </div>
-          
+
           {analysisResult && !isAnalyzing && (
             <div className="mt-12 animate-fade-in">
               <ResultsPanel analysis={analysisResult} />
             </div>
           )}
-          
+
           {isAnalyzing && (
             <div className="mt-12 flex justify-center">
               <div className="p-8 text-center">
@@ -72,7 +73,7 @@ const Index = () => {
               </div>
             </div>
           )}
-          
+
           {!analysisResult && !isAnalyzing && (
             <div className="mt-12 p-8 text-center bg-white rounded-xl shadow-lg max-w-3xl mx-auto">
               <h3 className="text-xl font-medium text-teal-700 mb-3">Ready to Analyze Your Document?</h3>
@@ -81,7 +82,7 @@ const Index = () => {
           )}
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );

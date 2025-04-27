@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,24 +5,63 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoginCredentials } from "@/types/auth";
 import { useToast } from "@/components/ui/use-toast";
+import { loginUser } from "@/lib/api"
+import Loader from "@/components/Loader.jsx"
 
 const LoginForm = () => {
   const [credentials, setCredentials] = useState<LoginCredentials>({
     email: "",
     password: "",
   });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
+
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Integrate with your Django backend
-    console.log("Login attempt with:", credentials);
-    toast({
-      title: "Login Successful",
-      description: "Welcome back!",
-    });
-    navigate("/dashboard");
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await loginUser(credentials);
+
+      if (response.data.access && response.data.refresh) {
+        localStorage.setItem('access_token', response.data.access);
+        localStorage.setItem('refresh_token', response.data.refresh);
+
+        toast({
+          title: "Login Successful",
+          description: "Welcome back!",
+        });
+
+        navigate('/dashboard');
+        return; // Important to return here to prevent further execution
+      }
+
+      throw new Error('Invalid response from server');
+
+    } catch (err) {
+      let errorMessage = 'Login failed. Please check your credentials.';
+
+      if (err.response) {
+        // Handle Django backend errors
+        errorMessage = err.response.data.detail || errorMessage;
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+
+      setError(errorMessage);
+      // toast({
+      //   title: "Login Failed",
+      //   description: errorMessage,
+      //   variant: "destructive"
+      // });
+
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -33,6 +71,11 @@ const LoginForm = () => {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+              {error}
+            </div>
+          )}
           <div className="space-y-2">
             <label className="text-sm font-medium" htmlFor="email">
               Email
@@ -63,8 +106,12 @@ const LoginForm = () => {
               required
             />
           </div>
-          <Button type="submit" className="w-full">
-            Login
+          <Button
+            type="submit"
+            className="w-full bg-teal-700 hover:bg-teal-800 uppercase"
+            disabled={isLoading}
+          >
+            {isLoading ? <Loader size="small" /> : 'Sign In'}
           </Button>
         </form>
       </CardContent>

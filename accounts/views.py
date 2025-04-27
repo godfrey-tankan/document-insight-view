@@ -9,6 +9,10 @@ class RegistrationView(APIView):
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
+            #check is user already exists
+            if serializer.is_email_exists() or serializer.is_username_exists():
+                return Response({'message': 'User already exist. Please verify email.'
+            }, status=status.HTTP_400_BAD_REQUEST)
             user = serializer.save()
             # Send verification email here (we'll implement later)
             return Response({

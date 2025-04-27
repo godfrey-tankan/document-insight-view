@@ -18,6 +18,12 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             last_name=validated_data.get('last_name', '')
         )
         return user
+    def is_email_exists(self):
+        email = self.validated_data.get('email')
+        return CustomUser.objects.filter(email=email).exists()
+    def is_username_exists(self):
+        username = self.validated_data.get('username')
+        return CustomUser.objects.filter(username=username).exists()
 
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
