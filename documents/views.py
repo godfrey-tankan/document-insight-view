@@ -16,6 +16,7 @@ from .utils import (
 
 class AnalyzeDocumentView(APIView):
     def post(self, request):
+        print("AnalyzeDocumentView called",request.user)
         # Authentication check
         if not request.user.is_authenticated:
             return Response({"error": "Authentication required"}, status=status.HTTP_401_UNAUTHORIZED)
