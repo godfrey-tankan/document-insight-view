@@ -38,7 +38,6 @@ const SignUpForm = () => {
       setError('');
 
       const response = await registerUser(credentials);
-      console.log('this is the response...', response);
 
       if (response.status === 201) {
         toast({
