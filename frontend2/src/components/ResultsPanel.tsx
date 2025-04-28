@@ -25,7 +25,7 @@ const ResultsPanel = ({ analysis }: ResultsPanelProps) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <StatCard
           title="Original Content"
-          value={`${safeAnalysis.textAnalysis?.originalContent ?? 0}%`}
+          value={`${analysis.plagiarismScore}%`}  // Changed from textAnalysis.originalContent
           description="Unique, non-plagiarized content"
           colorClass="text-teal-600"
         />

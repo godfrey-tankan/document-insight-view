@@ -10,16 +10,27 @@ from .models import Document  # Add this import
 
 def extract_text_from_file(file):
     """Extract text from PDF, DOCX, or TXT files"""
-    text = ""
+    text = ""    
+    print(f"\nStarting extraction for {file.name}")
     
     if file.name.endswith('.pdf'):
         try:
-            pdf_reader = PyPDF2.PdfReader(file)
-            for page in pdf_reader.pages:
-                text += page.extract_text() or ''
+            # Read the file content into memory
+            file_content = file.read()
+            pdf_reader = PyPDF2.PdfReader(io.BytesIO(file_content))
+            
+            for i, page in enumerate(pdf_reader.pages):
+                page_text = page.extract_text() or ''
+                text += page_text
+                print(f"Page {i+1} extracted {len(page_text)} characters")
+                
+            if len(text.strip()) < 50:
+                raise ValueError("PDF appears to be image-based or empty")
+                
         except Exception as e:
-            raise ValueError(f"Error reading PDF file: {str(e)}")
-
+            print(f"PDF Error: {str(e)}")
+            raise ValueError(f"Error reading PDF: {str(e)}")
+            
     elif file.name.endswith('.docx'):
         try:
             doc = docx.Document(file)
@@ -35,9 +46,9 @@ def extract_text_from_file(file):
     
     return text.strip()
 
-def analyze_text(text):
+def analyze_text(request,text):
     """Analyze text for plagiarism using TF-IDF and cosine similarity"""
-    existing_docs = Document.objects.all().values_list('content', flat=True)
+    existing_docs = Document.objects.exclude(user=request.user).values_list('content', flat=True)
     
     # Handle empty document database
     if not existing_docs:
@@ -70,20 +81,24 @@ def analyze_text(text):
     }
 
 def check_ai_probability(text):
-    """Check probability of text being AI-generated using transformers"""
+    """Lightweight AI detection using a faster model"""
     try:
+        # Use a smaller distilled model
         ai_detector = pipeline(
             'text-classification', 
-            model='roberta-base-openai-detector',
+            model='Hello-SimpleAI/chatgpt-detector-roberta',
             truncation=True,
-            max_length=512
+            max_length=512,
+            device=0 if torch.cuda.is_available() else -1  # Use GPU if available
         )
-        result = ai_detector(text[:2000])  # Use first 2000 characters
+        
+        # Process first 1024 characters only for speed
+        result = ai_detector(text[:1024])
         return round(result[0]['score'] * 100, 2)
     except Exception as e:
         print(f"AI Detection Error: {str(e)}")
         return 0.0
-
+    
 def highlight_matches(text, sources):
     """Highlight matching phrases in text"""
     patterns = []
