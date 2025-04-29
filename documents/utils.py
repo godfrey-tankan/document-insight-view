@@ -58,84 +58,82 @@ def extract_text_from_file(file):
     logger.info(f"Extracted {len(text)} characters total")
     return text.strip()
 
-
 def analyze_text(content_hash,text):
-    """Analyze text for plagiarism using TF-IDF and cosine similarity"""
+    """Return analysis with positions for highlights"""
     existing_docs = Document.objects.exclude(content_hash=content_hash).values_list('content', flat=True)
+    highlights = []
     
-    # Handle empty document database
-    if not existing_docs:
-        return {
-            'score': 0.0,
-            'matches': [],
-            'highlighted': text
-        }
-
     vectorizer = TfidfVectorizer(stop_words='english')
     vectors = vectorizer.fit_transform([text] + list(existing_docs))
-    
     similarity_matrix = cosine_similarity(vectors[0:1], vectors[1:])
-    similarities = similarity_matrix[0]
+    max_score = round(max(similarity_matrix[0], default=0) * 100, 2)
     
-    matches = []
-    for idx, score in enumerate(similarities):
-        if score > 0.2:  
-            doc = Document.objects.all()[idx]
-            matches.append({
-                'source': doc.file.name,
-                'similarity': round(score * 100, 2),
-                'url': f"/documents/{doc.id}/"  
+    for idx, doc in enumerate(existing_docs):
+        if similarity_matrix[0][idx] > 0.2:
+            for match in re.finditer(re.escape(doc[:50]), text):
+                highlights.append({
+                    'type': 'plagiarism',
+                    'position': calculate_position(text, match.start(), match.end())
+                })
+
+    return {
+        'score': max_score,
+        'highlights': highlights,
+        'highlighted_html': generate_highlighted_html(text, highlights)
+    }
+
+def check_ai_probability(text):
+    """Return AI detection with sentence positions"""
+    ai_detector = pipeline('text-classification', model='roberta-base-openai-detector')
+    sentences = re.split(r'(?<=[.!?]) +', text)
+    highlights = []
+    
+    for sentence in sentences:
+        result = ai_detector(sentence[:512])[0]
+        if result['label'] == 'AI' and result['score'] > 0.7:
+            start = text.find(sentence)
+            highlights.append({
+                'type': 'ai',
+                'position': calculate_position(text, start, start + len(sentence))
             })
     
     return {
-        'score': round(max(similarities, default=0) * 100, 2),
-        'matches': sorted(matches, key=lambda x: x['similarity'], reverse=True),
-        'highlighted': highlight_matches(text, existing_docs)
+        'score': round(result['score'] * 100, 2) if highlights else 0,
+        'highlights': highlights
     }
 
-# def check_ai_probability(text):
-#     """Lightweight AI detection using a faster model"""
-#     try:
-#         # Use a smaller distilled model
-#         ai_detector = pipeline(
-#             'text-classification', 
-#             model='Hello-SimpleAI/chatgpt-detector-roberta',
-#             truncation=True,
-#             max_length=512,
-#             device=0 if torch.cuda.is_available() else -1  # Use GPU if available
-#         )
-        
-#         # Process first 1024 characters only for speed
-#         result = ai_detector(text[:1024])
-#         return round(result[0]['score'] * 100, 2)
-#     except Exception as e:
-#         print(f"AI Detection Error: {str(e)}")
-#         return 0.0
-    
-    
-def check_ai_probability(text):
-    """AI detection with proper resource management"""
-    try:
-        if not torch.cuda.is_available():
-            print("Warning: Using CPU for AI detection - this will be slow!")
+def calculate_position(full_text, start, end):
+    """Calculate position percentages for highlighting"""
+    total_chars = len(full_text)
+    return {
+        'page': 1, 
+        'x': round((start / total_chars) * 100, 2),
+        'y': 10, 
+        'width': round(((end - start) / total_chars) * 100, 2),
+        'height': 2 
+    }
 
-        # Use smaller model for better performance
-        ai_detector = pipeline(
-            'text-classification',
-            model='distilbert-base-uncased',  # Lighter model
-            device=0 if torch.cuda.is_available() else -1,
-            truncation=True,
-            max_length=512
+def generate_highlighted_html(text, highlights):
+    """Generate HTML with highlighted spans"""
+    highlighted = text
+    for hl in sorted(highlights, key=lambda x: x['position']['x'], reverse=True):
+        start = int(len(text) * hl['position']['x'] / 100)
+        end = start + int(len(text) * hl['position']['width'] / 100)
+        highlighted = (
+            highlighted[:start] +
+            f'<span class="highlight {hl["type"]}">' +
+            highlighted[start:end] +
+            '</span>' +
+            highlighted[end:]
         )
+    return highlighted
 
-        # Process first 512 characters only
-        result = ai_detector(text[:512])
-        return round(result[0]['score'] * 100, 2)
-        
-    except Exception as e:
-        print(f"AI Detection Failed: {str(e)}")
-        return 0.0  # Return safe default    
-    
+
+
+
+
+
+
 
     
 def highlight_matches(text, sources):
@@ -161,3 +159,81 @@ def calculate_document_stats(text):
         'page_count': (len(text) // 1500) + 1,  # Approximate pages
         'reading_time': textstat.reading_time(text, ms_per_char=14.69)
     }
+
+# def analyze_text(content_hash,text):
+#     """Analyze text for plagiarism using TF-IDF and cosine similarity"""
+#     existing_docs = Document.objects.exclude(content_hash=content_hash).values_list('content', flat=True)
+    
+#     # Handle empty document database
+#     if not existing_docs:
+#         return {
+#             'score': 0.0,
+#             'matches': [],
+#             'highlighted': text
+#         }
+
+#     vectorizer = TfidfVectorizer(stop_words='english')
+#     vectors = vectorizer.fit_transform([text] + list(existing_docs))
+    
+#     similarity_matrix = cosine_similarity(vectors[0:1], vectors[1:])
+#     similarities = similarity_matrix[0]
+    
+#     matches = []
+#     for idx, score in enumerate(similarities):
+#         if score > 0.2:  
+#             doc = Document.objects.all()[idx]
+#             matches.append({
+#                 'source': doc.file.name,
+#                 'similarity': round(score * 100, 2),
+#                 'url': f"/documents/{doc.id}/"  
+#             })
+    
+#     return {
+#         'score': round(max(similarities, default=0) * 100, 2),
+#         'matches': sorted(matches, key=lambda x: x['similarity'], reverse=True),
+#         'highlighted': highlight_matches(text, existing_docs)
+#     }
+
+# # def check_ai_probability(text):
+# #     """Lightweight AI detection using a faster model"""
+# #     try:
+# #         # Use a smaller distilled model
+# #         ai_detector = pipeline(
+# #             'text-classification', 
+# #             model='Hello-SimpleAI/chatgpt-detector-roberta',
+# #             truncation=True,
+# #             max_length=512,
+# #             device=0 if torch.cuda.is_available() else -1  # Use GPU if available
+# #         )
+        
+# #         # Process first 1024 characters only for speed
+# #         result = ai_detector(text[:1024])
+# #         return round(result[0]['score'] * 100, 2)
+# #     except Exception as e:
+# #         print(f"AI Detection Error: {str(e)}")
+# #         return 0.0
+    
+    
+# def check_ai_probability(text):
+#     """AI detection with proper resource management"""
+#     try:
+#         if not torch.cuda.is_available():
+#             print("Warning: Using CPU for AI detection - this will be slow!")
+
+#         # Use smaller model for better performance
+#         ai_detector = pipeline(
+#             'text-classification',
+#             model='distilbert-base-uncased',  # Lighter model
+#             device=0 if torch.cuda.is_available() else -1,
+#             truncation=True,
+#             max_length=512
+#         )
+
+#         # Process first 512 characters only
+#         result = ai_detector(text[:512])
+#         return round(result[0]['score'] * 100, 2)
+        
+#     except Exception as e:
+#         print(f"AI Detection Failed: {str(e)}")
+#         return 0.0  # Return safe default    
+    

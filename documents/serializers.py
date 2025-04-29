@@ -26,27 +26,12 @@ class TextAnalysisSerializer(serializers.Serializer):
     ai_generated_content = serializers.FloatField()
 
 class DocumentSerializer(serializers.ModelSerializer):
-    stats = DocumentStatsSerializer(source='*')
-    ai_markers = AIMarkerSerializer(many=True)
-    sources_detected = SourceMatchSerializer(many=True)
-    text_analysis = TextAnalysisSerializer(source='*')
-    file_url = serializers.SerializerMethodField()
-    format = serializers.SerializerMethodField()
+    fileUrl = serializers.SerializerMethodField()
+    highlights = serializers.SerializerMethodField()
 
     class Meta:
         model = Document
-        fields = [
-            'id',
-            'file_url',
-            'format',
-            'plagiarism_score',
-            'ai_score',
-            'text_analysis',
-            'sources_detected',
-            'ai_markers',
-            'stats',
-            'created_at'
-        ]
+        fields = '__all__'
 
     def get_file_url(self, obj):
         request = self.context.get('request')

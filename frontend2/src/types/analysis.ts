@@ -50,4 +50,20 @@ export interface DocumentAnalysis {
   analyzedAt?: string;
   highlightedText?: string;
   content: string;
+  highlights?: Highlight[];
+  fileUrl?: string;
+}
+
+
+export interface HighlightPosition {
+  page: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface Highlight {
+  type: 'plagiarism' | 'ai';
+  position: HighlightPosition;
 }

@@ -19,4 +19,12 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    include: [
+      'react-pdf',
+      'pdfjs-dist',
+      'pdfjs-dist/lib/pdf.worker'
+    ],
+    exclude: ['@react-pdf-viewer/core']
+  }
 }));
