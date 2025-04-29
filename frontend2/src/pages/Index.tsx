@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import { DocumentAnalysis } from '@/types/analysis';
 import { sampleAnalysis } from '@/utils/demoData';
 import { useToast } from '@/components/ui/use-toast';
-import { analyzeDocument } from '@/lib/api';
+import { analyzeDocument, backendAPI } from '@/lib/api';
 
 const Index = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -18,6 +18,29 @@ const Index = () => {
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('access_token') !== null;
+    const checkBackendServer = async () => {
+      try {
+        const response = await backendAPI({
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          }
+        }
+        );
+        if (response.status !== 200) {
+          throw new Error('Backend server is down');
+        }
+      } catch (error) {
+        toast({
+          title: "Session Expired",
+          description: "Your session has expired. Please log in again.",
+          variant: "destructive"
+        });
+        navigate('/login');
+      }
+    };
+    checkBackendServer();
 
     if (!isAuthenticated) {
       navigate('/login');

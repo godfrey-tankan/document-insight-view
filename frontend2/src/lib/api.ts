@@ -12,6 +12,7 @@ export function logoutUser() {
   window.location.href = '/login'
 
 };
+export const backendAPI = (data) => api.get('documents/test-csrf/', data)
 // Auth API
 export const registerUser = (data) => api.post('auth/register/', data)
 export const loginUser = (data) => api.post('auth/login/', data)

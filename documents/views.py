@@ -110,9 +110,12 @@ class AnalyzeDocumentView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+@method_decorator(csrf_exempt, name='dispatch')
 class DocumentViewSet(viewsets.ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def perform_create(self, serializer):
         file = self.request.FILES.get('file')
         if file:
@@ -140,6 +143,12 @@ class DocumentViewSet(viewsets.ModelViewSet):
             )
 
 
+    @action(detail=False, methods=['get'], url_path='test-csrf')
+    def test_csrf(self, request):
+        """Test CSRF exemption"""
+
+        return Response({"message": "CSRF exemption works!"}, status=status.HTTP_200_OK)
+    
     @action(detail=False, methods=['post'], url_path='analyze')
     def analyze(self, request):
         print("Authenticated User:", request.user)
