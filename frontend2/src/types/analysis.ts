@@ -48,4 +48,6 @@ export interface DocumentAnalysis {
   aiMarkers: AIMarker[];
   fileName?: string;
   analyzedAt?: string;
+  highlightedText?: string;
+  content: string;
 }

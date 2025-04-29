@@ -88,6 +88,8 @@ class AnalyzeDocumentView(APIView):
                 },
                 'plagiarismScore': doc.plagiarism_score,
                 'aiScore': doc.ai_score,
+                'highlightedText': plagiarism_result['highlighted'],
+                'content': text,
                 'documentStats': {
                     'wordCount': doc.word_count,
                     'characterCount': doc.character_count,

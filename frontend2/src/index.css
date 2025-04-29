@@ -99,3 +99,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+.prose {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+mark {
+  background-color: #FECACA !important;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
