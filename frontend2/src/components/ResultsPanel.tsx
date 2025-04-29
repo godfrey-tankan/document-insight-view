@@ -3,6 +3,8 @@ import { DocumentAnalysis, SourceMatch, AIMarker, DocumentStats } from '@/types/
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import PlagiarismSection from './PlagiarismSection';
+import AIAnalysisSection from './AIAnalysisSection';
 
 interface ResultsPanelProps {
   analysis?: DocumentAnalysis;

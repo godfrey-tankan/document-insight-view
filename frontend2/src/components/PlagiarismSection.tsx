@@ -1,7 +1,7 @@
 // components/PlagiarismSection.tsx
 import { DocumentAnalysis, SourceMatch } from '@/types/analysis'
 import { Progress } from '@/components/ui/progress'
-import SourceItem from './SourceItem'
+import SourceItem from '@/components/SourceItem'
 
 const PlagiarismSection = ({ analysis }: { analysis: DocumentAnalysis }) => {
     return (

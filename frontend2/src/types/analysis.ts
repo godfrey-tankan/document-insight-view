@@ -6,19 +6,18 @@ export interface TextAnalysisResult {
   aiGeneratedContent: number;    // Percentage of AI-generated content
 }
 
-export interface SourceMatch {
-  source: string;                // Source identifier (e.g., website name, document title)
-  url: string;                   // URL of the matched source
-  matchPercentage: number;       // Percentage match with this source
-  snippets: string[];            // Matching text snippets
-}
-
 export interface AIMarker {
   type: string;                  // AI model type (e.g., 'GPT-4', 'Bard', 'Claude-2')
   confidence: number;            // Detection confidence percentage
   sections: string[];            // Sections of text flagged as AI-generated
 }
 
+export interface SourceMatch {
+  source: string
+  url?: string
+  matchPercentage: number
+  snippets?: string[]
+}
 
 export type DocumentFormat = 'pdf' | 'docx' | 'txt' | 'md';  // Added markdown support
 
