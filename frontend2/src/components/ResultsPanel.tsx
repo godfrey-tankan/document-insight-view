@@ -5,45 +5,54 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 interface ResultsPanelProps {
-  analysis?: DocumentAnalysis; // Make optional
+  analysis?: DocumentAnalysis;
 }
 
 const ResultsPanel = ({ analysis }: ResultsPanelProps) => {
-  // Safe defaults while preserving visual structure
+  // Safe defaults with proper initial values
   const safeAnalysis = analysis || {
-    textAnalysis: { originalContent: 0, plagiarizedContent: 0, aiGeneratedContent: 0 },
+    textAnalysis: {
+      originalContent: 0,
+      plagiarizedContent: 0,
+      aiGeneratedContent: 0
+    },
     plagiarismScore: 0,
     aiScore: 0,
     sourcesDetected: [],
     aiMarkers: [],
-    documentStats: { wordCount: 0, characterCount: 0, pageCount: 0, readingTime: 0 }
+    documentStats: {
+      word_count: 0,
+      character_count: 0,
+      page_count: 0,
+      reading_time: 0
+    }
   };
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 space-y-8">
-      {/* Summary Statistics - Preserved layout with safety checks */}
+      {/* Summary Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <StatCard
           title="Original Content"
-          value={`${analysis.plagiarismScore}%`}  // Changed from textAnalysis.originalContent
+          value={`${safeAnalysis.plagiarismScore}%`}
           description="Unique, non-plagiarized content"
           colorClass="text-teal-600"
         />
         <StatCard
           title="Plagiarized Content"
-          value={`${safeAnalysis.textAnalysis?.plagiarizedContent ?? 0}%`}
+          value={`${safeAnalysis.textAnalysis.plagiarizedContent}%`}
           description="Matched with existing sources"
           colorClass="text-red-600"
         />
         <StatCard
           title="AI Generated Content"
-          value={`${safeAnalysis.textAnalysis?.aiGeneratedContent ?? 0}%`}
+          value={`${safeAnalysis.textAnalysis.aiGeneratedContent}%`}
           description="Detected AI-generated text"
           colorClass="text-blue-600"
         />
       </div>
 
-      {/* Detailed Analysis Sections - Maintain visual structure */}
+      {/* Detailed Analysis Sections */}
       <PlagiarismSection analysis={safeAnalysis} />
       <AIAnalysisSection analysis={safeAnalysis} />
       <DocumentStatsSection stats={safeAnalysis.documentStats} />
@@ -51,37 +60,16 @@ const ResultsPanel = ({ analysis }: ResultsPanelProps) => {
   );
 };
 
-const PlagiarismSection = ({ analysis }: { analysis: DocumentAnalysis }) => (
-  <div className="space-y-6">
-    <h3 className="text-2xl font-semibold">Plagiarism Detection ({analysis.plagiarismScore ?? 0}%)</h3>
-    <Progress value={analysis.plagiarismScore ?? 0} className="h-3" />
-
-    {(analysis.sourcesDetected || []).map((source, index) => (
-      <SourceItem key={source.source || `source-${index}`} source={source} index={index} />
-    ))}
-  </div>
-);
-
-const AIAnalysisSection = ({ analysis }: { analysis: DocumentAnalysis }) => (
-  <div className="space-y-6">
-    <h3 className="text-2xl font-semibold">AI Detection Analysis ({analysis.aiScore ?? 0}%)</h3>
-    <Progress value={analysis.aiScore ?? 0} className="h-3" />
-
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {(analysis.aiMarkers || []).map((marker, index) => (
-        <AIMarkerItem key={marker.type || `marker-${index}`} marker={marker} index={index} />
-      ))}
-    </div>
-  </div>
-);
+// Helper function to convert snake_case to camelCase
+const convertStats = (stats: DocumentStats) => ({
+  wordCount: stats.word_count || stats.wordCount || 0,
+  characterCount: stats.character_count || stats.characterCount || 0,
+  pageCount: stats.page_count || stats.pageCount || 0,
+  readingTime: stats.reading_time || stats.readingTime || 0
+});
 
 const DocumentStatsSection = ({ stats }: { stats?: DocumentStats }) => {
-  const safeStats = stats || {
-    wordCount: 0,
-    characterCount: 0,
-    pageCount: 0,
-    readingTime: 0
-  };
+  const safeStats = convertStats(stats || {});
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
