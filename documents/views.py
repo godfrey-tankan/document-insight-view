@@ -23,67 +23,86 @@ import hashlib
 def calculate_content_hash(text):
     return hashlib.md5(text.encode()).hexdigest()
 
+# documents/views.py
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from .models import Document
+from .utils import (
+    extract_text_from_file,
+    analyze_text,
+    check_ai_probability,
+    calculate_document_stats
+)
+import hashlib
+
 @method_decorator(csrf_exempt, name='dispatch')
 class AnalyzeDocumentView(APIView):
-    
-
- 
-    authentication_classes = [JWTAuthentication]  # Add JWT authentication
-    permission_classes = [IsAuthenticated]        # Require authenticated users
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        # Remove the manual authentication check
-        # Get uploaded file
         file = request.FILES.get('document')
         if not file:
             return Response({"error": "No document provided"}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            # Extract text from file
             text = extract_text_from_file(file)
-            
-            # Perform analysis
-            plagiarism_result = analyze_text(request,text)
-            ai_probability = check_ai_probability(text)
-            stats = calculate_document_stats(text)
-            
-            # Save document to database
-            doc = Document.objects.create(
-                user=request.user,
-                content=text,
-                plagiarism_score=plagiarism_result['score'],
-                ai_score=ai_probability,
-                file=file,
-                word_count=stats['word_count'],
-                character_count=stats['character_count'],
-                page_count=stats['page_count'],
-                reading_time=stats['reading_time']
-            )
-            
+            content_hash = hashlib.md5(text.encode()).hexdigest()
+
+            existing_doc = Document.objects.filter(
+                content_hash=content_hash,
+            ).first()
+
+            if existing_doc:
+                existing_doc.plagiarism_score = analyze_text(content_hash,text)['score']
+                existing_doc.ai_score = check_ai_probability(text)
+                existing_doc.save()
+                doc = existing_doc
+            else:
+                plagiarism_result = analyze_text(content_hash,text)
+                ai_probability = check_ai_probability(text)
+                stats = calculate_document_stats(text)
+                
+                doc = Document.objects.create(
+                    user=request.user,
+                    content=text,
+                    content_hash=content_hash,
+                    plagiarism_score=plagiarism_result['score'],
+                    ai_score=ai_probability,
+                    file=file,
+                    **stats
+                )
+
             # Prepare response
             result = {
-                    'textAnalysis': {
-                        'originalContent': 100 - plagiarism_result['score'],
-                        'plagiarizedContent': plagiarism_result['score'],
-                        'aiGeneratedContent': ai_probability
-                    },
-                    'plagiarismScore': plagiarism_result['score'],
-                    'aiScore': ai_probability,
-                    'documentStats': {
-                        'wordCount': stats['word_count'],
-                        'characterCount': stats['character_count'],
-                        'pageCount': stats['page_count'],
-                        'readingTime': stats['reading_time']
-                    },
-                    'sourcesDetected': plagiarism_result['matches'],
-                    'aiMarkers': [
-                        {
-                            'type': 'AI Probability',
-                            'confidence': ai_probability,
-                            'sections': []
-                        }
-                    ]
-                }
+                'textAnalysis': {
+                    'originalContent': 100 - doc.plagiarism_score,
+                    'plagiarizedContent': doc.plagiarism_score,
+                    'aiGeneratedContent': doc.ai_score
+                },
+                'plagiarismScore': doc.plagiarism_score,
+                'aiScore': doc.ai_score,
+                'documentStats': {
+                    'wordCount': doc.word_count,
+                    'characterCount': doc.character_count,
+                    'pageCount': doc.page_count,
+                    'readingTime': doc.reading_time
+                },
+                'sourcesDetected': [],
+                'aiMarkers': [
+                    {
+                        'type': 'AI Probability',
+                        'confidence': doc.ai_score,
+                        'sections': []
+                    }
+                ]
+            }
             
             return Response(result, status=status.HTTP_200_OK)
             
@@ -91,7 +110,6 @@ class AnalyzeDocumentView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 class DocumentViewSet(viewsets.ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer

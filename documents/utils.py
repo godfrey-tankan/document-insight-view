@@ -59,9 +59,9 @@ def extract_text_from_file(file):
     return text.strip()
 
 
-def analyze_text(request,text):
+def analyze_text(content_hash,text):
     """Analyze text for plagiarism using TF-IDF and cosine similarity"""
-    existing_docs = Document.objects.exclude(user=request.user).values_list('content', flat=True)
+    existing_docs = Document.objects.exclude(content_hash=content_hash).values_list('content', flat=True)
     
     # Handle empty document database
     if not existing_docs:
@@ -79,12 +79,12 @@ def analyze_text(request,text):
     
     matches = []
     for idx, score in enumerate(similarities):
-        if score > 0.2:  # Adjust threshold as needed
+        if score > 0.2:  
             doc = Document.objects.all()[idx]
             matches.append({
                 'source': doc.file.name,
                 'similarity': round(score * 100, 2),
-                'url': f"/documents/{doc.id}/"  # Add actual URL logic
+                'url': f"/documents/{doc.id}/"  
             })
     
     return {

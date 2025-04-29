@@ -9,6 +9,7 @@ class Document(models.Model):
     content = models.TextField()
     plagiarism_score = models.FloatField()
     ai_score = models.FloatField()
+    content_hash= models.CharField(max_length=64, unique=True)
     file = models.FileField(upload_to='documents/')
     created_at = models.DateTimeField(auto_now_add=True)
     word_count = models.IntegerField()

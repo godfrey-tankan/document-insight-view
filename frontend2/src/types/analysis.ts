@@ -1,14 +1,5 @@
 // src/types/analysis.ts
 
-export interface DocumentAnalysis {
-  plagiarismScore: number;        // Overall plagiarism percentage
-  aiScore: number;               // Overall AI detection percentage
-  textAnalysis: TextAnalysisResult;
-  sourcesDetected: SourceMatch[];
-  aiMarkers: AIMarker[];
-  documentStats: DocumentStats;
-}
-
 export interface TextAnalysisResult {
   originalContent: number;       // Percentage of original content
   plagiarizedContent: number;    // Percentage of plagiarized content
@@ -28,11 +19,34 @@ export interface AIMarker {
   sections: string[];            // Sections of text flagged as AI-generated
 }
 
-export interface DocumentStats {
-  wordCount: number;             // Total words in document
-  characterCount: number;        // Total characters in document
-  pageCount: number;             // Total pages (if applicable)
-  readingTime: number;           // Estimated reading time in minutes
-}
 
 export type DocumentFormat = 'pdf' | 'docx' | 'txt' | 'md';  // Added markdown support
+
+
+export interface DocumentStats {
+  // Backend response fields (snake_case)
+  word_count?: number;
+  character_count?: number;
+  page_count?: number;
+  reading_time?: number;
+  // Frontend fields (camelCase)
+  wordCount?: number;
+  characterCount?: number;
+  pageCount?: number;
+  readingTime?: number;
+}
+
+export interface DocumentAnalysis {
+  textAnalysis: {
+    originalContent: number;
+    plagiarizedContent: number;
+    aiGeneratedContent: number;
+  };
+  plagiarismScore: number;
+  aiScore: number;
+  documentStats: DocumentStats;
+  sourcesDetected: SourceMatch[];
+  aiMarkers: AIMarker[];
+  fileName?: string;
+  analyzedAt?: string;
+}
