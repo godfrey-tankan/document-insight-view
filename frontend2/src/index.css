@@ -110,3 +110,28 @@ mark {
   padding: 2px 4px;
   border-radius: 4px;
 }
+
+/* Add to your global CSS */
+.highlight-overlay {
+  position: relative;
+}
+
+.plagiarism-highlight {
+  background-color: rgba(254, 202, 202, 0.3);
+  border: 2px solid #ef4444;
+}
+
+.ai-highlight {
+  background-color: rgba(254, 240, 138, 0.3);
+  border: 2px solid #eab308;
+}
+
+.react-pdf__Page {
+  margin: 1rem 0;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.react-pdf__Page__textContent {
+  position: absolute;
+  cursor: text;
+}

@@ -41,7 +41,7 @@ from .utils import (
 )
 import hashlib
 
-@method_decorator(csrf_exempt, name='dispatch')
+method_decorator(csrf_exempt, name='dispatch')
 class AnalyzeDocumentView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -60,16 +60,17 @@ class AnalyzeDocumentView(APIView):
             ).first()
 
             if existing_doc:
-                existing_doc.plagiarism_score = analyze_text(content_hash,text)['score']
+                plagiarism_result = analyze_text(content_hash,text)
+                existing_doc.plagiarism_score = plagiarism_result['score']
                 existing_doc.ai_score = check_ai_probability(text)
                 existing_doc.save()
-                doc = existing_doc
             else:
+                # For new documents
                 plagiarism_result = analyze_text(content_hash,text)
                 ai_probability = check_ai_probability(text)
                 stats = calculate_document_stats(text)
                 
-                doc = Document.objects.create(
+                existing_doc = Document.objects.create(
                     user=request.user,
                     content=text,
                     content_hash=content_hash,
@@ -79,39 +80,40 @@ class AnalyzeDocumentView(APIView):
                     **stats
                 )
 
-            # Prepare response
             result = {
                 'textAnalysis': {
-                    'originalContent': 100 - doc.plagiarism_score,
-                    'plagiarizedContent': doc.plagiarism_score,
-                    'aiGeneratedContent': doc.ai_score
+                    'originalContent': 100 - existing_doc.plagiarism_score,
+                    'plagiarizedContent': existing_doc.plagiarism_score,
+                    'aiGeneratedContent': existing_doc.ai_score
                 },
-                'plagiarismScore': doc.plagiarism_score,
-                'aiScore': doc.ai_score,
-                'highlightedText': plagiarism_result['highlighted'],
+                'plagiarismScore': existing_doc.plagiarism_score,
+                'aiScore': existing_doc.ai_score,
+                'highlightedText': plagiarism_result.get('highlighted', ''),
                 'content': text,
                 'documentStats': {
-                    'wordCount': doc.word_count,
-                    'characterCount': doc.character_count,
-                    'pageCount': doc.page_count,
-                    'readingTime': doc.reading_time
+                    'wordCount': existing_doc.word_count,
+                    'characterCount': existing_doc.character_count,
+                    'pageCount': existing_doc.page_count,
+                    'readingTime': existing_doc.reading_time
                 },
-                'sourcesDetected': [],
+                'sourcesDetected': plagiarism_result.get('matches', []),
                 'aiMarkers': [
                     {
                         'type': 'AI Probability',
-                        'confidence': doc.ai_score,
+                        'confidence': existing_doc.ai_score,
                         'sections': []
                     }
                 ]
             }
             
             return Response(result, status=status.HTTP_200_OK)
-            
+
         except ValidationError as e:
+            print(f"Validation Error: {str(e)}")
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            print(f"Unexpected Error: {str(e)}")
+            return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 @method_decorator(csrf_exempt, name='dispatch')
 class DocumentViewSet(viewsets.ModelViewSet):
     queryset = Document.objects.all()

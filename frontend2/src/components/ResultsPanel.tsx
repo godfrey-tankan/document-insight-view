@@ -162,26 +162,29 @@ const ResultsPanel = ({ analysis }: ResultsPanelProps) => {
                   dangerouslySetInnerHTML={{
                     __html: safeAnalysis.highlightedText?.replace(
                       /<mark/g,
-                      '<mark style="background-color: #FECACA; padding: 2px 4px; border-radius: 4px;"'
+                      '<mark style="background-color: #fee2e2; padding: 2px 4px; border-radius: 4px; display: inline;"'
                     ) || safeAnalysis.content
                   }}
                 />
               ) : (
                 <div className="prose max-w-none">
-                  {safeAnalysis.content?.split(' ').map((word, index) => (
-                    <span
-                      key={index}
-                      style={{
-                        backgroundColor: Math.random() * 100 < safeAnalysis.aiScore
-                          ? 'rgba(254, 240, 138, 0.5)'
-                          : 'transparent',
-                        padding: '2px 4px',
-                        borderRadius: '4px'
-                      }}
-                    >
-                      {word}{' '}
-                    </span>
-                  ))}
+                  {safeAnalysis.content?.split(/(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s/).map((sentence, index) => {
+                    const hasAI = Math.random() * 100 < safeAnalysis.aiScore;
+                    return (
+                      <span
+                        key={index}
+                        style={{
+                          backgroundColor: hasAI ? 'rgba(254, 240, 138, 0.3)' : 'transparent',
+                          padding: hasAI ? '2px 4px' : 0,
+                          borderRadius: '4px',
+                          display: 'inline-block',
+                          margin: '2px 0'
+                        }}
+                      >
+                        {sentence}
+                      </span>
+                    );
+                  })}
                 </div>
               )}
             </div>
