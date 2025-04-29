@@ -62,17 +62,21 @@ class AnalyzeDocumentView(APIView):
             
             # Prepare response
             result = {
-                    'textAnalysis': {  # Changed to match frontend expectations
+                    'textAnalysis': {
                         'originalContent': 100 - plagiarism_result['score'],
                         'plagiarizedContent': plagiarism_result['score'],
                         'aiGeneratedContent': ai_probability
                     },
                     'plagiarismScore': plagiarism_result['score'],
                     'aiScore': ai_probability,
-                    'documentStats': stats,
-                    'highlightedText': plagiarism_result['highlighted'],
+                    'documentStats': {
+                        'wordCount': stats['word_count'],
+                        'characterCount': stats['character_count'],
+                        'pageCount': stats['page_count'],
+                        'readingTime': stats['reading_time']
+                    },
                     'sourcesDetected': plagiarism_result['matches'],
-                    'aiMarkers': [  # Add this if your frontend needs it
+                    'aiMarkers': [
                         {
                             'type': 'AI Probability',
                             'confidence': ai_probability,
