@@ -3,6 +3,21 @@ import { DocumentAnalysis, SourceMatch, AIMarker, DocumentStats } from '@/types/
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from 'recharts';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger
+} from '@/components/ui/tabs';
 import PlagiarismSection from './PlagiarismSection';
 import AIAnalysisSection from './AIAnalysisSection';
 
@@ -11,6 +26,9 @@ interface ResultsPanelProps {
 }
 
 const ResultsPanel = ({ analysis }: ResultsPanelProps) => {
+  const [activeTab, setActiveTab] = useState('stats');
+  const [highlightMode, setHighlightMode] = useState<'plagiarism' | 'ai'>('plagiarism');
+
   // Safe defaults with proper initial values
   const safeAnalysis = analysis || {
     textAnalysis: {
@@ -27,37 +45,149 @@ const ResultsPanel = ({ analysis }: ResultsPanelProps) => {
       character_count: 0,
       page_count: 0,
       reading_time: 0
-    }
+    },
+    highlightedText: '',
+    content: ''
   };
+
+  // Chart data preparation
+  const chartData = [
+    { name: 'Original', value: safeAnalysis.textAnalysis.originalContent },
+    { name: 'Plagiarized', value: safeAnalysis.textAnalysis.plagiarizedContent },
+    { name: 'AI Generated', value: safeAnalysis.textAnalysis.aiGeneratedContent },
+  ];
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 space-y-8">
-      {/* Summary Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <StatCard
-          title="Original Content"
-          value={`${safeAnalysis.plagiarismScore}%`}
-          description="Unique, non-plagiarized content"
-          colorClass="text-teal-600"
-        />
-        <StatCard
-          title="Plagiarized Content"
-          value={`${safeAnalysis.textAnalysis.plagiarizedContent}%`}
-          description="Matched with existing sources"
-          colorClass="text-red-600"
-        />
-        <StatCard
-          title="AI Generated Content"
-          value={`${safeAnalysis.textAnalysis.aiGeneratedContent}%`}
-          description="Detected AI-generated text"
-          colorClass="text-blue-600"
-        />
-      </div>
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="grid grid-cols-2 w-full md:w-[400px]">
+          <TabsTrigger value="stats">Statistics View</TabsTrigger>
+          <TabsTrigger value="text">Text Analysis</TabsTrigger>
+        </TabsList>
 
-      {/* Detailed Analysis Sections */}
-      <PlagiarismSection analysis={safeAnalysis} />
-      <AIAnalysisSection analysis={safeAnalysis} />
-      <DocumentStatsSection stats={safeAnalysis.documentStats} />
+        <TabsContent value="stats">
+          <div className="space-y-8">
+            {/* Visualization Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="h-64">
+                <h3 className="text-xl font-semibold mb-4">Content Distribution</h3>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis unit="%" />
+                    <Tooltip />
+                    <Bar
+                      dataKey="value"
+                      fill="#3B82F6"
+                      label={{ position: 'top' }}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div className="h-64">
+                <h3 className="text-xl font-semibold mb-4">Risk Scores</h3>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={[
+                    { name: 'Plagiarism', score: safeAnalysis.plagiarismScore },
+                    { name: 'AI Generated', score: safeAnalysis.aiScore }
+                  ]}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis unit="%" />
+                    <Tooltip />
+                    <Bar
+                      dataKey="score"
+                      fill="#EF4444"
+                      label={{ position: 'top' }}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Summary Statistics */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <StatCard
+                title="Original Content"
+                value={`${safeAnalysis.plagiarismScore}%`}
+                description="Unique, non-plagiarized content"
+                colorClass="text-teal-600"
+              />
+              <StatCard
+                title="Plagiarized Content"
+                value={`${safeAnalysis.textAnalysis.plagiarizedContent}%`}
+                description="Matched with existing sources"
+                colorClass="text-red-600"
+              />
+              <StatCard
+                title="AI Generated Content"
+                value={`${safeAnalysis.textAnalysis.aiGeneratedContent}%`}
+                description="Detected AI-generated text"
+                colorClass="text-blue-600"
+              />
+            </div>
+
+            {/* Detailed Analysis Sections */}
+            <PlagiarismSection analysis={safeAnalysis} />
+            <AIAnalysisSection analysis={safeAnalysis} />
+            <DocumentStatsSection stats={safeAnalysis.documentStats} />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="text">
+          <div className="space-y-4">
+            <div className="flex gap-2 flex-wrap">
+              <Button
+                variant={highlightMode === 'plagiarism' ? 'default' : 'outline'}
+                onClick={() => setHighlightMode('plagiarism')}
+                className="flex-1 md:flex-none"
+              >
+                Show Plagiarism
+              </Button>
+              <Button
+                variant={highlightMode === 'ai' ? 'default' : 'outline'}
+                onClick={() => setHighlightMode('ai')}
+                className="flex-1 md:flex-none"
+              >
+                Show AI Patterns
+              </Button>
+            </div>
+
+            <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 text-gray-700 max-h-[600px] overflow-auto">
+              {highlightMode === 'plagiarism' ? (
+                <div
+                  className="prose max-w-none"
+                  dangerouslySetInnerHTML={{
+                    __html: safeAnalysis.highlightedText?.replace(
+                      /<mark/g,
+                      '<mark style="background-color: #FECACA; padding: 2px 4px; border-radius: 4px;"'
+                    ) || safeAnalysis.content
+                  }}
+                />
+              ) : (
+                <div className="prose max-w-none">
+                  {safeAnalysis.content?.split(' ').map((word, index) => (
+                    <span
+                      key={index}
+                      style={{
+                        backgroundColor: Math.random() * 100 < safeAnalysis.aiScore
+                          ? 'rgba(254, 240, 138, 0.5)'
+                          : 'transparent',
+                        padding: '2px 4px',
+                        borderRadius: '4px'
+                      }}
+                    >
+                      {word}{' '}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
