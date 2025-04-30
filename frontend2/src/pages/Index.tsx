@@ -9,6 +9,7 @@ import { DocumentAnalysis } from '@/types/analysis';
 import { sampleAnalysis } from '@/utils/demoData';
 import { useToast } from '@/components/ui/use-toast';
 import { analyzeDocument, backendAPI } from '@/lib/api';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 const Index = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -94,7 +95,9 @@ const Index = () => {
 
           {analysisResult && !isAnalyzing && (
             <div className="mt-12 animate-fade-in">
-              <ResultsPanel analysis={analysisResult} />
+              <ErrorBoundary>
+                <ResultsPanel analysis={analysisResult} />
+              </ErrorBoundary>
             </div>
           )}
 

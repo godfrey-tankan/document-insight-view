@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { DocumentAnalysis } from '@/types/analysis';
 import * as mammoth from 'mammoth';
+import { Viewer, SpecialZoomLevel } from '@react-pdf-viewer/core';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import {
   BarChart,
   Bar,
@@ -17,11 +19,7 @@ import {
   TabsTrigger
 } from '@/components/ui/tabs';
 
-// Fixed PDF Viewer imports
-import { Viewer } from '@react-pdf-viewer/core';
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-
-// Import PDF viewer styles
+// PDF Viewer Styles
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
@@ -30,6 +28,7 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
   const [docContent, setDocContent] = useState<string>('');
   const [loadingDoc, setLoadingDoc] = useState(false);
   const [docError, setDocError] = useState<string | null>(null);
+  const [pdfError, setPdfError] = useState<string | null>(null);
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   // Default values for safe analysis
@@ -63,6 +62,7 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
 
     setLoadingDoc(true);
     setDocError(null);
+    setPdfError(null);
 
     try {
       if (isWordDoc) {
@@ -80,11 +80,20 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
   };
 
   useEffect(() => {
+    let isMounted = true;
     if (activeTab === 'text' && safeAnalysis.fileUrl) {
       loadDocumentContent();
     }
+    return () => {
+      isMounted = false;
+    };
   }, [activeTab, safeAnalysis.fileUrl]);
 
+  // PDF error handler
+  const handlePdfError = (error: Error) => {
+    console.error('PDF Error:', error);
+    setPdfError(error.message);
+  };
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 space-y-8">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -179,10 +188,22 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
             {safeAnalysis.fileUrl ? (
               <>
                 {isPdf && (
-                  <div className="h-[800px]">
+                  <div className="h-[800px] relative">
+                    {pdfError && (
+                      <div className="absolute inset-0 bg-red-50 flex items-center justify-center p-4">
+                        <p className="text-red-600">PDF Error: {pdfError}</p>
+                      </div>
+                    )}
                     <Viewer
                       fileUrl={safeAnalysis.fileUrl}
                       plugins={[defaultLayoutPluginInstance]}
+                      defaultScale={SpecialZoomLevel.PageFit}
+                      onDocumentLoad={() => setPdfError(null)}
+                      renderError={() => (
+                        <div className="p-4 bg-red-50 text-red-600">
+                          Failed to load PDF document
+                        </div>
+                      )}
                     />
                   </div>
                 )}
