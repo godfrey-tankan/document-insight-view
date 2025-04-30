@@ -84,6 +84,7 @@ class AnalyzeDocumentView(APIView):
                 )
 
             # Prepare response
+            print("Document URL:", doc.file.url)
             result = {
                 'id': doc.id,  # Include numeric ID
                 'fileUrl': doc.file.url,

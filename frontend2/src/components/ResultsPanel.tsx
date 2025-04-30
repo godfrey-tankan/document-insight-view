@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
 import { DocumentAnalysis } from '@/types/analysis';
-import { Progress } from '@/components/ui/progress';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import * as mammoth from 'mammoth';
 import {
   BarChart,
   Bar,
@@ -20,18 +17,22 @@ import {
   TabsTrigger
 } from '@/components/ui/tabs';
 
+// Fixed PDF Viewer imports
+import { Viewer } from '@react-pdf-viewer/core';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 
-// Update the worker URL to match 3.4.120
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js`;
+// Import PDF viewer styles
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
   const [activeTab, setActiveTab] = useState('stats');
-  const [numPages, setNumPages] = useState(0);
-  const [pageDimensions, setPageDimensions] = useState<{
-    [key: number]: { width: number, height: number }
-  }>({});
+  const [docContent, setDocContent] = useState<string>('');
+  const [loadingDoc, setLoadingDoc] = useState(false);
+  const [docError, setDocError] = useState<string | null>(null);
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
-  // Safe defaults with actual data structure
+  // Default values for safe analysis
   const safeAnalysis = analysis || {
     plagiarismScore: 0,
     aiScore: 0,
@@ -46,17 +47,43 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
     content: ''
   };
 
-  // Chart data
+  // File type detection
+  const fileExtension = safeAnalysis.fileUrl?.split('.').pop()?.toLowerCase();
+  const isPdf = fileExtension === 'pdf';
+  const isWordDoc = ['doc', 'docx'].includes(fileExtension || '');
   const chartData = [
     { name: 'Original', value: 100 - safeAnalysis.plagiarismScore },
     { name: 'Plagiarized', value: safeAnalysis.plagiarismScore },
     { name: 'AI Generated', value: safeAnalysis.aiScore }
   ];
 
-  const handlePageLoad = (page: any, index: number) => {
-    const { width, height } = page.getViewport({ scale: 1 });
-    setPageDimensions(prev => ({ ...prev, [index + 1]: { width, height } }));
+  // Document loading handler
+  const loadDocumentContent = async () => {
+    if (!safeAnalysis.fileUrl) return;
+
+    setLoadingDoc(true);
+    setDocError(null);
+
+    try {
+      if (isWordDoc) {
+        const response = await fetch(safeAnalysis.fileUrl);
+        const arrayBuffer = await response.arrayBuffer();
+        const result = await mammoth.convertToHtml({ arrayBuffer });
+        setDocContent(result.value);
+      }
+    } catch (error) {
+      console.error('Document load error:', error);
+      setDocError('Failed to load document preview');
+    } finally {
+      setLoadingDoc(false);
+    }
   };
+
+  useEffect(() => {
+    if (activeTab === 'text' && safeAnalysis.fileUrl) {
+      loadDocumentContent();
+    }
+  }, [activeTab, safeAnalysis.fileUrl]);
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 space-y-8">
@@ -69,7 +96,6 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
         {/* Statistics Tab */}
         <TabsContent value="stats">
           <div className="space-y-8">
-            {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <StatCard
                 title="Original Content"
@@ -91,7 +117,6 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
               />
             </div>
 
-            {/* Visualization Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="h-64">
                 <h3 className="text-xl font-semibold mb-4">Content Distribution</h3>
@@ -99,7 +124,7 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
                   <BarChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
-                    <YAxis unit="%" />
+                    <YAxis />
                     <Tooltip />
                     <Bar dataKey="value" fill="#3B82F6" />
                   </BarChart>
@@ -115,7 +140,7 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
                   ]}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
-                    <YAxis unit="%" />
+                    <YAxis />
                     <Tooltip />
                     <Bar dataKey="score" fill="#EF4444" />
                   </BarChart>
@@ -123,7 +148,6 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
               </div>
             </div>
 
-            {/* Document Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <StatCard
                 title="Word Count"
@@ -153,25 +177,51 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
         <TabsContent value="text">
           <div className="space-y-4">
             {safeAnalysis.fileUrl ? (
-              <Document
-                file={safeAnalysis.fileUrl}
-                onLoadError={(error) => console.error('PDF load error:', error)}
-                onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-                className="border rounded-lg"
-              >
-                {Array.from({ length: numPages }, (_, index) => (
-                  <div key={`page_${index + 1}`} className="relative my-4">
-                    <Page
-                      pageNumber={index + 1}
-                      width={pageDimensions[index + 1]?.width || 800}
-                      onLoadSuccess={(page) => handlePageLoad(page, index)}
-                      renderAnnotationLayer={false}
-                      renderTextLayer={false}
+              <>
+                {isPdf && (
+                  <div className="h-[800px]">
+                    <Viewer
+                      fileUrl={safeAnalysis.fileUrl}
+                      plugins={[defaultLayoutPluginInstance]}
                     />
-                    {/* Add highlight overlays here */}
                   </div>
-                ))}
-              </Document>
+                )}
+
+                {isWordDoc && (
+                  <div className="border rounded-lg p-4 min-h-[800px]">
+                    {loadingDoc && <p className="text-gray-500">Loading document...</p>}
+                    {docError && (
+                      <div className="text-red-500 p-4 bg-red-50 rounded-lg">
+                        {docError}
+                      </div>
+                    )}
+                    {!loadingDoc && !docError && (
+                      <div
+                        className="prose max-w-none"
+                        dangerouslySetInnerHTML={{ __html: docContent }}
+                      />
+                    )}
+                    {!docContent && !loadingDoc && !docError && (
+                      <iframe
+                        src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(safeAnalysis.fileUrl)}`}
+                        width="100%"
+                        height="800px"
+                        frameBorder="0"
+                        className="border rounded-lg"
+                        title="Document preview"
+                      />
+                    )}
+                  </div>
+                )}
+
+                {!isPdf && !isWordDoc && (
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <p className="text-gray-500">
+                      Preview not available for .{fileExtension} files
+                    </p>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="p-4 bg-gray-50 rounded-lg">
                 <p className="text-gray-500">No document preview available</p>
@@ -184,7 +234,6 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
   );
 };
 
-// StatCard component
 const StatCard = ({ title, value, description, colorClass = "text-gray-800" }: {
   title: string;
   value: string;

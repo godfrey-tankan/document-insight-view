@@ -21,10 +21,54 @@ export default defineConfig(({ mode }) => ({
   },
   optimizeDeps: {
     include: [
-      'react-pdf',
-      'pdfjs-dist',
-      'pdfjs-dist/lib/pdf.worker'
+      '@react-pdf-viewer/core',
+      '@react-pdf-viewer/default-layout',
+      'recharts'
     ],
-    exclude: ['@react-pdf-viewer/core']
+    exclude: []
   }
 }));
+
+// import { defineConfig } from 'vite'
+// import react from '@vitejs/plugin-react-swc'
+// import commonjs from 'vite-plugin-commonjs'
+// import path from 'path'
+
+// export default defineConfig({
+//   server: {
+//     host: "::",
+//     port: 8080,
+//   },
+
+//   resolve: {
+//     alias: [
+//       {
+//         find: "@",
+//         replacement: path.resolve(__dirname, "./src"),
+//       },
+//       // Add specific component aliases for better resolution
+//       {
+//         find: "@/components",
+//         replacement: path.resolve(__dirname, "./src/components"),
+//       },
+//       {
+//         find: "@/lib",
+//         replacement: path.resolve(__dirname, "./src/lib"),
+//       },
+//     ],
+//   },
+//   plugins: [
+//     react(),
+//     commonjs({
+//       filter(id) {
+//         return ['@react-pdf-viewer'].some(p => id.includes(p))
+//       }
+//     })
+//   ],
+//   optimizeDeps: {
+//     include: [
+//       '@react-pdf-viewer/core',
+//       '@react-pdf-viewer/default-layout'
+//     ]
+//   }
+// })
