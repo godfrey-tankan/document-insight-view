@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { DocumentAnalysis } from '@/types/analysis';
 import * as mammoth from 'mammoth';
-import { Viewer, SpecialZoomLevel } from '@react-pdf-viewer/core';
-import { GlobalWorkerOptions } from 'pdfjs-dist';
+import { Viewer, SpecialZoomLevel, PdfJs } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import { GlobalWorkerOptions } from 'pdfjs-dist';
 import {
   BarChart,
   Bar,
@@ -20,8 +20,8 @@ import {
   TabsTrigger
 } from '@/components/ui/tabs';
 
-GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${(await import('pdfjs-dist')).version}/pdf.worker.min.js`;
-// Removed redundant PdfJs workerSrc assignment
+// GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
+GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
 
 // Import PDF viewer styles
 import '@react-pdf-viewer/core/lib/styles/index.css';
@@ -71,13 +71,14 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
     try {
       if (isWordDoc) {
         const response = await fetch(safeAnalysis.fileUrl);
+        if (!response.ok) throw new Error('Failed to fetch document');
         const arrayBuffer = await response.arrayBuffer();
         const result = await mammoth.convertToHtml({ arrayBuffer });
         setDocContent(result.value);
       }
     } catch (error) {
       console.error('Document load error:', error);
-      setDocError('Failed to load document preview');
+      setDocError(error instanceof Error ? error.message : 'Document load failed');
     } finally {
       setLoadingDoc(false);
     }
@@ -93,11 +94,20 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
     };
   }, [activeTab, safeAnalysis.fileUrl]);
 
-  // PDF error handler
   const handlePdfError = (error: Error) => {
     console.error('PDF Error:', error);
     setPdfError(error.message);
   };
+
+  const validatePdfUrl = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 space-y-8">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -105,6 +115,7 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
           <TabsTrigger value="stats">Statistics View</TabsTrigger>
           <TabsTrigger value="text">Document View</TabsTrigger>
         </TabsList>
+
 
         {/* Statistics Tab */}
         <TabsContent value="stats">
@@ -187,28 +198,46 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
         </TabsContent>
 
         {/* Document View Tab */}
+        {/* Document View Tab */}
         <TabsContent value="text">
           <div className="space-y-4">
             {safeAnalysis.fileUrl ? (
               <>
                 {isPdf && (
                   <div className="h-[800px] relative">
+                    {!validatePdfUrl(safeAnalysis.fileUrl) && (
+                      <div className="absolute inset-0 bg-yellow-50 flex items-center justify-center p-4">
+                        <p className="text-yellow-700">Invalid PDF URL format</p>
+                      </div>
+                    )}
                     {pdfError && (
                       <div className="absolute inset-0 bg-red-50 flex items-center justify-center p-4">
                         <p className="text-red-600">PDF Error: {pdfError}</p>
                       </div>
                     )}
-                    <Viewer
-                      fileUrl={safeAnalysis.fileUrl}
-                      plugins={[defaultLayoutPluginInstance]}
-                      defaultScale={SpecialZoomLevel.PageFit}
-                      onDocumentLoad={() => setPdfError(null)}
-                      renderError={() => (
-                        <div className="p-4 bg-red-50 text-red-600">
-                          Failed to load PDF document
-                        </div>
-                      )}
-                    />
+                    {validatePdfUrl(safeAnalysis.fileUrl) && (
+                      <Viewer
+                        fileUrl={safeAnalysis.fileUrl}
+                        plugins={[defaultLayoutPluginInstance]}
+                        defaultScale={SpecialZoomLevel.PageFit}
+                        onDocumentLoad={() => setPdfError(null)}
+                        onDocumentError={handlePdfError}
+                        httpHeaders={{
+                          'Accept-Ranges': 'bytes',
+                          'Cache-Control': 'no-cache'
+                        }}
+                        renderError={() => (
+                          <div className="p-4 bg-red-50 text-red-600">
+                            Failed to load PDF document. Please check:
+                            <ul className="list-disc pl-6 mt-2">
+                              <li>File URL is valid</li>
+                              <li>PDF is not password protected</li>
+                              <li>File is not corrupted</li>
+                            </ul>
+                          </div>
+                        )}
+                      />
+                    )}
                   </div>
                 )}
 
