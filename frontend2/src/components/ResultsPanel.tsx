@@ -49,6 +49,13 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
     fileUrl: '',
     content: ''
   };
+  const normalizeUrl = (url: string) => {
+    // Handle relative paths from Django
+    if (url.startsWith('/media/')) {
+      return `${window.location.origin}${url}`;
+    }
+    return url;
+  };
 
   // File type detection
   const fileExtension = safeAnalysis.fileUrl?.split('.').pop()?.toLowerCase();
@@ -101,8 +108,8 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
 
   const validatePdfUrl = (url: string) => {
     try {
-      new URL(url);
-      return true;
+      const parsed = new URL(url);
+      return parsed.protocol.startsWith('http');
     } catch {
       return false;
     }
@@ -205,37 +212,34 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
               <>
                 {isPdf && (
                   <div className="h-[800px] relative">
-                    {!validatePdfUrl(safeAnalysis.fileUrl) && (
-                      <div className="absolute inset-0 bg-yellow-50 flex items-center justify-center p-4">
-                        <p className="text-yellow-700">Invalid PDF URL format</p>
-                      </div>
-                    )}
-                    {pdfError && (
-                      <div className="absolute inset-0 bg-red-50 flex items-center justify-center p-4">
-                        <p className="text-red-600">PDF Error: {pdfError}</p>
-                      </div>
-                    )}
                     {validatePdfUrl(safeAnalysis.fileUrl) && (
                       <Viewer
-                        fileUrl={safeAnalysis.fileUrl}
+                        fileUrl={normalizeUrl(safeAnalysis.fileUrl)}
                         plugins={[defaultLayoutPluginInstance]}
                         defaultScale={SpecialZoomLevel.PageFit}
-                        onDocumentLoad={() => setPdfError(null)}
-                        onDocumentError={handlePdfError}
                         httpHeaders={{
                           'Accept-Ranges': 'bytes',
-                          'Cache-Control': 'no-cache'
+                          'Cache-Control': 'no-cache',
+                          'Access-Control-Allow-Origin': '*' // Explicit CORS header
                         }}
-                        renderError={() => (
-                          <div className="p-4 bg-red-50 text-red-600">
-                            Failed to load PDF document. Please check:
-                            <ul className="list-disc pl-6 mt-2">
-                              <li>File URL is valid</li>
-                              <li>PDF is not password protected</li>
-                              <li>File is not corrupted</li>
-                            </ul>
+                        renderLoader={() => (
+                          <div className="p-4 bg-blue-50 text-blue-600">
+                            Loading PDF document...
                           </div>
                         )}
+                        renderError={(error) => {
+                          console.error('PDF Render Error:', error);
+                          return (
+                            <div className="p-4 bg-red-50 text-red-600">
+                              PDF Error: {error.message}. Please check:
+                              <ul className="list-disc pl-6 mt-2">
+                                <li>File URL is accessible</li>
+                                <li>No browser extensions blocking PDFs</li>
+                                <li>Valid PDF format</li>
+                              </ul>
+                            </div>
+                          );
+                        }}
                       />
                     )}
                   </div>
