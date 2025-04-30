@@ -6,11 +6,24 @@ import textstat
 import torch 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from transformers import pipeline
 from .models import Document
-import io 
 import logging
+from functools import lru_cache
 logger = logging.getLogger(__name__)
+
+
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from concurrent.futures import ThreadPoolExecutor
+
+
+AI_MODEL_NAME = "Hello-SimpleAI/chatgpt-detector-roberta"
+tokenizer = AutoTokenizer.from_pretrained(AI_MODEL_NAME)
+model = AutoModelForSequenceClassification.from_pretrained(AI_MODEL_NAME)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = model.to(device)
+model.eval()
+
+
 
 def extract_text_from_file(file):
     """Extract text with better error handling"""
@@ -83,24 +96,74 @@ def analyze_text(content_hash,text):
     }
 
 def check_ai_probability(text):
-    """Return AI detection with sentence positions"""
-    ai_detector = pipeline('text-classification', model='roberta-base-openai-detector')
-    sentences = re.split(r'(?<=[.!?]) +', text)
-    highlights = []
+    """Fast AI detection with batch processing"""
+    from nltk import sent_tokenize
+    import numpy as np
     
-    for sentence in sentences:
-        result = ai_detector(sentence[:512])[0]
-        if result['label'] == 'AI' and result['score'] > 0.7:
-            start = text.find(sentence)
-            highlights.append({
-                'type': 'ai',
-                'position': calculate_position(text, start, start + len(sentence))
-            })
+    # Batch processing parameters
+    BATCH_SIZE = 32  # Adjust based on available memory
+    MAX_LENGTH = 256  # Optimal for this model
+    SCORE_THRESHOLD = 0.45  # Balanced threshold
     
-    return {
-        'score': round(result['score'] * 100, 2) if highlights else 0,
-        'highlights': highlights
-    }
+    try:
+        # Better sentence splitting with NLTK
+        sentences = sent_tokenize(text)
+        if not sentences:
+            return {'score': 0, 'highlights': []}
+            
+        # Preprocess sentences in parallel
+        with ThreadPoolExecutor() as executor:
+            batches = [sentences[i:i+BATCH_SIZE] for i in range(0, len(sentences), BATCH_SIZE)]
+            results = []
+            
+            for batch in batches:
+                inputs = tokenizer(
+                    batch,
+                    padding=True,
+                    truncation=True,
+                    max_length=MAX_LENGTH,
+                    return_tensors="pt"
+                ).to(device)
+                
+                with torch.no_grad():
+                    logits = model(**inputs).logits
+                    probs = torch.softmax(logits, dim=1).cpu().numpy()
+                    
+                batch_results = [
+                    {'sentence': sent, 'score': float(prob[1])}
+                    for sent, prob in zip(batch, probs)
+                ]
+                results.extend(batch_results)
+
+        total_weight = 0
+        weighted_sum = 0
+        highlights = []
+        
+        for res in results:
+            weight = len(res['sentence'])
+            if res['score'] > SCORE_THRESHOLD:
+                start = text.find(res['sentence'])
+                if start != -1:
+                    highlights.append({
+                        'type': 'ai',
+                        'position': calculate_position(text, start, start + len(res['sentence'])),
+                        'score': res['score']
+                    })
+                weighted_sum += res['score'] * weight
+                total_weight += weight
+
+        avg_score = (weighted_sum / total_weight) * 100 if total_weight > 0 else 0
+        
+        logger.info(f"AI Detection - Sentences: {len(sentences)} | Score: {avg_score:.2f}%")
+        
+        return {
+            'score': round(avg_score, 2),
+            'highlights': highlights
+        }
+
+    except Exception as e:
+        logger.error(f"AI Detection Error: {str(e)}")
+        return {'score': 0, 'highlights': []}
 
 def calculate_position(full_text, start, end):
     """Calculate position percentages for highlighting"""

@@ -37,11 +37,23 @@ class AnalyzeDocumentView(APIView):
             file = request.FILES['document']
             if file.size > 10 * 1024 * 1024:
                 return Response({"error": "File too large (max 10MB)"}, status=400)
-
-            # Text extraction
             text = extract_text_from_file(file)
             if not text.strip():
                 return Response({"error": "Document content is empty"}, status=400)
+            max_text_length = 10000
+            chunked_text = [text[i:i+max_text_length] for i in range(0, len(text), max_text_length)]
+            
+            ai_results = []
+            for chunk in chunked_text:
+                ai_results.append(check_ai_probability(chunk))
+                
+            # Combine results
+            combined_ai_result = {
+                'score': sum(r['score'] for r in ai_results) / len(ai_results),
+                'highlights': [hl for r in ai_results for hl in r['highlights']]
+            }
+
+            # Text extraction
 
             content_hash = hashlib.md5(text.encode()).hexdigest()
 
@@ -56,10 +68,10 @@ class AnalyzeDocumentView(APIView):
                 ai_result = check_ai_probability(text)
                 
                 existing_doc.plagiarism_score = plagiarism_result['score']
-                existing_doc.ai_score = ai_result['score']
+                existing_doc.ai_score = combined_ai_result['score']
                 existing_doc._highlights = [
                     *plagiarism_result['highlights'],
-                    *ai_result['highlights']
+                    *combined_ai_result['highlights']
                 ]
                 existing_doc.save()
                 doc = existing_doc
@@ -74,10 +86,10 @@ class AnalyzeDocumentView(APIView):
                     content=text,
                     content_hash=content_hash,
                     plagiarism_score=plagiarism_result['score'],
-                    ai_score=ai_result['score'],
+                    ai_score=combined_ai_result['score'],
                     _highlights=[
                         *plagiarism_result['highlights'],
-                        *ai_result['highlights']
+                        *combined_ai_result['highlights']
                     ],
                     file=file,
                     **stats
