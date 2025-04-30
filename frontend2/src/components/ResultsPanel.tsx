@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { DocumentAnalysis } from '@/types/analysis';
 import * as mammoth from 'mammoth';
-import { Viewer, SpecialZoomLevel, PdfJs } from '@react-pdf-viewer/core';
+import { Viewer, SpecialZoomLevel } from '@react-pdf-viewer/core';
+import { GlobalWorkerOptions } from 'pdfjs-dist';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import {
   BarChart,
@@ -19,8 +20,8 @@ import {
   TabsTrigger
 } from '@/components/ui/tabs';
 
-// Configure PDF.js worker
-PdfJs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${PdfJs.version}/pdf.worker.min.js`;
+GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${(await import('pdfjs-dist')).version}/pdf.worker.min.js`;
+// Removed redundant PdfJs workerSrc assignment
 
 // Import PDF viewer styles
 import '@react-pdf-viewer/core/lib/styles/index.css';
