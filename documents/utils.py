@@ -9,19 +9,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from .models import Document
 import logging
 from functools import lru_cache
+from transformers import pipeline
 logger = logging.getLogger(__name__)
-
-
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-from concurrent.futures import ThreadPoolExecutor
-
-
-AI_MODEL_NAME = "Hello-SimpleAI/chatgpt-detector-roberta"
-tokenizer = AutoTokenizer.from_pretrained(AI_MODEL_NAME)
-model = AutoModelForSequenceClassification.from_pretrained(AI_MODEL_NAME)
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = model.to(device)
-model.eval()
 
 
 
@@ -36,37 +25,40 @@ def extract_text_from_file(file):
             file.seek(0)
             pdf_reader = PyPDF2.PdfReader(file)
             
-            logger.info(f"PDF has {len(pdf_reader.pages)} pages")
+            if len(pdf_reader.pages) == 0:
+                raise ValueError("PDF has no readable pages")
             
-            for i, page in enumerate(pdf_reader.pages):
+            # Limit to first 20 pages for performance
+            for i, page in enumerate(pdf_reader.pages[:20]):
                 page_text = page.extract_text() or ''
-                text += page_text
-                logger.debug(f"Page {i+1}: {len(page_text)} chars")
+                if page_text:
+                    text += page_text + "\n"
                 
-                if i > 10 and len(text) < 100:
-                    raise ValueError("PDF appears to be image-based or empty")
+                # Early exit for image-based PDFs
+                if i > 2 and len(text) < 100:
+                    raise ValueError("PDF appears to be image-based")
             
-            if len(text.strip()) < 50:
-                raise ValueError("PDF contains less than 50 characters of text")
+            if len(text.strip()) < 100:
+                raise ValueError("PDF contains insufficient text")
                 
         except Exception as e:
             logger.error(f"PDF Error: {str(e)}")
             raise ValueError(f"Failed to extract text: {str(e)}")
-        except Exception as e:
-            print(f"PDF Error: {str(e)}")
-            raise ValueError(f"Error reading PDF: {str(e)}")
             
     elif file.name.endswith('.docx'):
+        print("DOCX extraction started")
         try:
             doc = docx.Document(file)
             text = '\n'.join([para.text for para in doc.paragraphs])
         except Exception as e:
+            print(f"DOCX Error: {str(e)}")
             raise ValueError(f"Error reading DOCX file: {str(e)}")
 
     elif file.name.endswith('.txt'):
         text = file.read().decode('utf-8')
     
     else:
+        print(f"Unsupported file format: {file.name}")
         raise ValueError("Unsupported file format. Supported formats: PDF, DOCX, TXT")
     logger.info(f"Extracted {len(text)} characters total")
     return text.strip()
@@ -95,75 +87,124 @@ def analyze_text(content_hash,text):
         'highlighted_html': generate_highlighted_html(text, highlights)
     }
 
+
+# def check_ai_probability(text):
+#     """Return AI detection with sentence positions"""
+#     if not AI_MODEL:
+#         return {'score': 0, 'highlights': []}
+    
+#     text = (text or "").strip()
+#     if not text:
+#         return {'score': 0, 'highlights': []}
+
+#     try:
+#         sentences = re.split(r'(?<=[.!?]) +', text)
+#         highlights = []
+#         total_score = 0
+#         detected = 0
+        
+#         for sentence in sentences:
+#             if not sentence.strip():
+#                 continue
+                
+#             result = AI_MODEL(sentence[:512])[0]
+            
+#             if result['label'] == 'AI' and result['score'] > 0.7:
+#                 start = text.find(sentence)
+#                 if start != -1:
+#                     highlights.append({
+#                         'type': 'ai',
+#                         'position': calculate_position(text, start, start + len(sentence))
+#                     })
+#                     total_score += result['score']
+#                     detected += 1
+
+#         avg_score = (total_score / detected * 100) if detected > 0 else 0
+        
+#         return {
+#             'score': round(avg_score, 2),
+#             'highlights': highlights
+#         }
+
+#     except Exception as e:
+#         logger.error(f"AI detection error: {str(e)}")
+#         return {'score': 0, 'highlights': []}
+# def check_ai_probability(text):
+#     print("AI detection started")
+#     """Lightweight AI detection using a faster model"""
+#     # return {'score': 0, 'highlights': []}
+#     try:
+#         # Enhanced validation
+#         if not text or len(re.findall(r'\w+', text)) < 3:  # At least 3 words
+#             return {'score': 0, 'highlights': []}
+#         if not hasattr(check_ai_probability, 'ai_detector'):
+#             check_ai_probability.ai_detector = pipeline(
+#                 'text-classification', 
+#                 model='Hello-SimpleAI/chatgpt-detector-roberta',
+#                 truncation=True,
+#                 max_length=512,
+#                 device=0 if torch.cuda.is_available() else -1
+#             )
+
+#         processed_text = text[:1024].strip()
+        
+#         # Final safety check
+#         if not processed_text or len(processed_text) < 10:
+#             return {'score': 0, 'highlights': []}
+
+#         result = check_ai_probability.ai_detector(processed_text)
+        
+#         # Handle empty results
+#         if not result:
+#             return {'score': 0, 'highlights': []}
+            
+#         return {
+#             'score': round(result[0]['score'] * 100, 2),
+#             'highlights': []  # Add your highlight logic here
+#         }
+        
+#     except ValueError as ve:
+#         if "0 sample(s)" in str(ve):
+#             return {'score': 0, 'highlights': []}
+#         raise
+#     except Exception as e:
+#         print(f"AI Detection Error: {str(e)}")
+#         return {'score': 0, 'highlights': []}
+
+
 def check_ai_probability(text):
-    """Fast AI detection with batch processing"""
-    from nltk import sent_tokenize
-    import numpy as np
-    
-    # Batch processing parameters
-    BATCH_SIZE = 32  # Adjust based on available memory
-    MAX_LENGTH = 256  # Optimal for this model
-    SCORE_THRESHOLD = 0.45  # Balanced threshold
-    
+    """Lightweight AI detection using a faster model"""
     try:
-        # Better sentence splitting with NLTK
-        sentences = sent_tokenize(text)
-        if not sentences:
+        # Initialize detector once
+        if not hasattr(check_ai_probability, 'ai_detector'):
+            check_ai_probability.ai_detector = pipeline(
+                'text-classification', 
+                model='Hello-SimpleAI/chatgpt-detector-roberta',
+                truncation=True,
+                max_length=512,
+                device=0 if torch.cuda.is_available() else -1
+            )
+
+        # Process meaningful text
+        processed_text = text[:2048].strip()  # Increased to 2048 characters
+        if not processed_text or len(re.findall(r'\w+', processed_text)) < 5:
+            return {'score': 0, 'highlights': []}
+
+        result = check_ai_probability.ai_detector(processed_text)
+        
+        # Handle empty results
+        if not result or not isinstance(result, list):
             return {'score': 0, 'highlights': []}
             
-        # Preprocess sentences in parallel
-        with ThreadPoolExecutor() as executor:
-            batches = [sentences[i:i+BATCH_SIZE] for i in range(0, len(sentences), BATCH_SIZE)]
-            results = []
-            
-            for batch in batches:
-                inputs = tokenizer(
-                    batch,
-                    padding=True,
-                    truncation=True,
-                    max_length=MAX_LENGTH,
-                    return_tensors="pt"
-                ).to(device)
-                
-                with torch.no_grad():
-                    logits = model(**inputs).logits
-                    probs = torch.softmax(logits, dim=1).cpu().numpy()
-                    
-                batch_results = [
-                    {'sentence': sent, 'score': float(prob[1])}
-                    for sent, prob in zip(batch, probs)
-                ]
-                results.extend(batch_results)
-
-        total_weight = 0
-        weighted_sum = 0
-        highlights = []
-        
-        for res in results:
-            weight = len(res['sentence'])
-            if res['score'] > SCORE_THRESHOLD:
-                start = text.find(res['sentence'])
-                if start != -1:
-                    highlights.append({
-                        'type': 'ai',
-                        'position': calculate_position(text, start, start + len(res['sentence'])),
-                        'score': res['score']
-                    })
-                weighted_sum += res['score'] * weight
-                total_weight += weight
-
-        avg_score = (weighted_sum / total_weight) * 100 if total_weight > 0 else 0
-        
-        logger.info(f"AI Detection - Sentences: {len(sentences)} | Score: {avg_score:.2f}%")
-        
         return {
-            'score': round(avg_score, 2),
-            'highlights': highlights
+            'score': round(result[0]['score'] * 100, 2),
+            'highlights': []  # Add your highlight logic here
         }
-
+        
     except Exception as e:
         logger.error(f"AI Detection Error: {str(e)}")
         return {'score': 0, 'highlights': []}
+
 
 def calculate_position(full_text, start, end):
     """Calculate position percentages for highlighting"""

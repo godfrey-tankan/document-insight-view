@@ -19,6 +19,10 @@ from .utils import (
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import hashlib
+import re
+import logging
+
+logger = logging.getLogger(__name__)
 
 def calculate_content_hash(text):
     return hashlib.md5(text.encode()).hexdigest()
@@ -37,23 +41,23 @@ class AnalyzeDocumentView(APIView):
             file = request.FILES['document']
             if file.size > 10 * 1024 * 1024:
                 return Response({"error": "File too large (max 10MB)"}, status=400)
-            text = extract_text_from_file(file)
-            if not text.strip():
-                return Response({"error": "Document content is empty"}, status=400)
-            max_text_length = 10000
-            chunked_text = [text[i:i+max_text_length] for i in range(0, len(text), max_text_length)]
-            
-            ai_results = []
-            for chunk in chunked_text:
-                ai_results.append(check_ai_probability(chunk))
-                
-            # Combine results
-            combined_ai_result = {
-                'score': sum(r['score'] for r in ai_results) / len(ai_results),
-                'highlights': [hl for r in ai_results for hl in r['highlights']]
-            }
-
+            print("File size:", file.size)
             # Text extraction
+            text = extract_text_from_file(file)
+            text = text.strip()  # Add this line
+            MIN_WORDS = 10  # Minimum 10 meaningful words
+            words = re.findall(r'\w+', text)
+            
+            if len(words) < MIN_WORDS:
+                logger.warning(f"Document too short: {len(words)} words")
+                return Response({"error": f"Document needs at least {MIN_WORDS} meaningful words"}, 
+                              status=400)
+
+            # Validate text for AI processing
+            if len(text) < 200:  # Minimum 200 characters
+                logger.warning(f"Text too short for AI analysis: {len(text)} chars")
+                return Response({"error": "Document text too short for analysis"}, 
+                              status=400)
 
             content_hash = hashlib.md5(text.encode()).hexdigest()
 
@@ -61,17 +65,21 @@ class AnalyzeDocumentView(APIView):
             existing_doc = Document.objects.filter(
                 content_hash=content_hash,
             ).first()
-
+            logger.info(f"Existing document: {existing_doc}")
             if existing_doc:
                 # Update existing document
                 plagiarism_result = analyze_text(content_hash,text)
-                ai_result = check_ai_probability(text)
+                try:
+                    ai_result = check_ai_probability(text)
+                except Exception as e:
+                    print(f"AI Detection failed: {str(e)}")
+                    ai_result = {'score': 0, 'highlights': []}
                 
                 existing_doc.plagiarism_score = plagiarism_result['score']
-                existing_doc.ai_score = combined_ai_result['score']
+                existing_doc.ai_score = ai_result['score']
                 existing_doc._highlights = [
                     *plagiarism_result['highlights'],
-                    *combined_ai_result['highlights']
+                    *ai_result['highlights']
                 ]
                 existing_doc.save()
                 doc = existing_doc
@@ -86,10 +94,10 @@ class AnalyzeDocumentView(APIView):
                     content=text,
                     content_hash=content_hash,
                     plagiarism_score=plagiarism_result['score'],
-                    ai_score=combined_ai_result['score'],
+                    ai_score=ai_result['score'],
                     _highlights=[
                         *plagiarism_result['highlights'],
-                        *combined_ai_result['highlights']
+                        *ai_result['highlights']
                     ],
                     file=file,
                     **stats
