@@ -62,10 +62,20 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
   const isPdf = fileExtension === 'pdf';
   const isWordDoc = ['doc', 'docx'].includes(fileExtension || '');
   const chartData = [
-    { name: 'Original', value: 100 - safeAnalysis.plagiarismScore },
-    { name: 'Plagiarized', value: safeAnalysis.plagiarismScore },
-    { name: 'AI Generated', value: safeAnalysis.aiScore }
+    {
+      name: 'Original',
+      value: 100 - (safeAnalysis.plagiarismScore + safeAnalysis.aiScore)
+    },
+    {
+      name: 'Plagiarized',
+      value: safeAnalysis.plagiarismScore
+    },
+    {
+      name: 'AI Generated',
+      value: safeAnalysis.aiScore
+    }
   ];
+
 
   // Document loading handler
   const loadDocumentContent = async () => {
@@ -130,19 +140,19 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <StatCard
                 title="Original Content"
-                value={`${100 - safeAnalysis.plagiarismScore}%`}
+                value={`${(100 - (safeAnalysis.plagiarismScore + safeAnalysis.aiScore)).toFixed(2)}%`}
                 colorClass="text-green-600"
                 description="Unique content percentage"
               />
               <StatCard
                 title="Plagiarized Content"
-                value={`${safeAnalysis.plagiarismScore}%`}
+                value={`${safeAnalysis.plagiarismScore.toFixed(2)}%`}
                 colorClass="text-red-600"
                 description="Matched with existing sources"
               />
               <StatCard
                 title="AI Generated"
-                value={`${safeAnalysis.aiScore}%`}
+                value={`${safeAnalysis.aiScore.toFixed(2)}%`}
                 colorClass="text-yellow-600"
                 description="Probability of AI generation"
               />

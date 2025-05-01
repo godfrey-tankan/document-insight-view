@@ -1,21 +1,22 @@
-# documents/views.py
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
+
 from .models import Document
-from .serializers import DocumentSerializer 
+from .serializers import DocumentSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
+
 from .utils import (
     extract_text_from_file,
     analyze_text,
     check_ai_probability,
     calculate_document_stats
 )
+
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import hashlib
@@ -25,7 +26,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 def calculate_content_hash(text):
-    return hashlib.md5(text.encode()).hexdigest()
+    return hashlib.md5(text.encode('utf-8')).hexdigest()
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class AnalyzeDocumentView(APIView):
@@ -34,83 +36,73 @@ class AnalyzeDocumentView(APIView):
 
     def post(self, request):
         try:
-            # File validation
+            # 1. file in request?
             if 'document' not in request.FILES:
                 return Response({"error": "No document provided"}, status=400)
-                
+
             file = request.FILES['document']
+            # 2. size limit
             if file.size > 10 * 1024 * 1024:
                 return Response({"error": "File too large (max 10MB)"}, status=400)
-            print("File size:", file.size)
-            # Text extraction
-            text = extract_text_from_file(file)
-            text = text.strip()  # Add this line
-            MIN_WORDS = 10  # Minimum 10 meaningful words
+
+            # 3. extract & basic validation
+            text = extract_text_from_file(file).strip()
+            logger.info(f"[{request.user}] extracted {len(text)} chars")
+
             words = re.findall(r'\w+', text)
-            
-            if len(words) < MIN_WORDS:
-                logger.warning(f"Document too short: {len(words)} words")
-                return Response({"error": f"Document needs at least {MIN_WORDS} meaningful words"}, 
-                              status=400)
+            if len(words) < 10 or len(text) < 200:
+                return Response({"error": "Document too short for analysis"}, status=400)
 
-            # Validate text for AI processing
-            if len(text) < 200:  # Minimum 200 characters
-                logger.warning(f"Text too short for AI analysis: {len(text)} chars")
-                return Response({"error": "Document text too short for analysis"}, 
-                              status=400)
+            # 4. dedupe by hash
+            content_hash = calculate_content_hash(text)
+            existing = Document.objects.filter(content_hash=content_hash).first()
 
-            content_hash = hashlib.md5(text.encode()).hexdigest()
+            # 5. plagiarism & AI
+            plag = analyze_text(content_hash, text)
+            p_score = min(plag['score'], 100.0)
 
-            # Existing document handling
-            existing_doc = Document.objects.filter(
-                content_hash=content_hash,
-            ).first()
-            logger.info(f"Existing document: {existing_doc}")
-            if existing_doc:
-                # Update existing document
-                plagiarism_result = analyze_text(content_hash,text)
-                try:
-                    ai_result = check_ai_probability(text)
-                except Exception as e:
-                    print(f"AI Detection failed: {str(e)}")
-                    ai_result = {'score': 0, 'highlights': []}
-                
-                existing_doc.plagiarism_score = plagiarism_result['score']
-                existing_doc.ai_score = ai_result['score']
-                existing_doc._highlights = [
-                    *plagiarism_result['highlights'],
-                    *ai_result['highlights']
-                ]
-                existing_doc.save()
-                doc = existing_doc
+            ai = check_ai_probability(text, plag['highlights'], plagiarism_score=p_score)
+            ai_score = min(ai['score'], 100.0 - p_score)
+
+            # 6. original
+            orig = round(max(0.0, 100.0 - (p_score + ai_score)), 1)
+
+            p_score = round(p_score, 1)
+            ai_score = round(ai_score, 1)
+
+            # 7. persist
+            stats = calculate_document_stats(text)
+            highlights = plag['highlights'] + ai['highlights']
+
+            if existing:
+                existing.plagiarism_score = p_score
+                existing.ai_score = ai_score
+                existing._highlights = highlights
+                existing.word_count = stats['word_count']
+                existing.character_count = stats['character_count']
+                existing.page_count = stats['page_count']
+                existing.reading_time = stats['reading_time']
+                existing.save()
+                doc = existing
             else:
-                # Create new document
-                plagiarism_result = analyze_text(content_hash,text)
-                ai_result = check_ai_probability(text)
-                stats = calculate_document_stats(text)
-                
                 doc = Document.objects.create(
                     user=request.user,
                     content=text,
                     content_hash=content_hash,
-                    plagiarism_score=plagiarism_result['score'],
-                    ai_score=ai_result['score'],
-                    _highlights=[
-                        *plagiarism_result['highlights'],
-                        *ai_result['highlights']
-                    ],
+                    plagiarism_score=p_score,
+                    ai_score=ai_score,
+                    _highlights=highlights,
                     file=file,
                     **stats
                 )
 
-            # Prepare response
-            print("Document URL:", doc.file.url)
+            # 8. response (exact same shape you had)
             result = {
-                'id': doc.id,  # Include numeric ID
+                'id': doc.id,
                 'fileUrl': doc.file.url,
-                'plagiarismScore': doc.plagiarism_score,
-                'aiScore': doc.ai_score,
-                'highlightedText': plagiarism_result.get('highlighted_html', ''),
+                'plagiarismScore': p_score,
+                'aiScore': ai_score,
+                'originalScore': orig,
                 'documentStats': {
                     'wordCount': doc.word_count,
                     'characterCount': doc.character_count,
@@ -119,35 +111,40 @@ class AnalyzeDocumentView(APIView):
                 },
                 'highlights': doc.highlights
             }
-            
             return Response(result, status=200)
 
         except ValidationError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            print(f"Server Error: {str(e)}")
+            logger.exception("AnalyzeDocumentView error")
             return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 class DocumentViewSet(viewsets.ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+
     def perform_create(self, serializer):
         file = self.request.FILES.get('file')
         if file:
             text = extract_text_from_file(file)
             content_hash = calculate_content_hash(text)
-            
+
             existing = Document.objects.filter(
                 user=self.request.user,
                 content_hash=content_hash
             ).first()
 
             if existing:
-                # Update existing record
-                existing.plagiarism_score = analyze_text(text, self.request.user)['score']
-                existing.ai_score = check_ai_probability(text)
+                # update scores if re-uploaded
+                plag = analyze_text(content_hash, text)
+                ai = check_ai_probability(text, plag['highlights'], plagiarism_score=plag['score'])
+                existing.plagiarism_score = plag['score']
+                existing.ai_score = ai['score']
+                existing._highlights = plag['highlights'] + ai['highlights']
                 existing.save()
                 return
 
@@ -156,39 +153,10 @@ class DocumentViewSet(viewsets.ModelViewSet):
                 user=self.request.user,
                 content=text,
                 content_hash=content_hash,
+                _highlights=[],
                 **stats
             )
 
-
     @action(detail=False, methods=['get'], url_path='test-csrf')
     def test_csrf(self, request):
-        """Test CSRF exemption"""
-
         return Response({"message": "CSRF exemption works!"}, status=status.HTTP_200_OK)
-    
-    @action(detail=False, methods=['post'], url_path='analyze')
-    def analyze(self, request):
-        print("Authenticated User:", request.user)
-        """Custom analysis endpoint"""
-        # Your existing analysis logic from AnalyzeDocumentView
-        file = request.FILES.get('document')
-        if not file:
-            return Response({"error": "No document provided"}, status=400)
-        
-        text = extract_text_from_file(file)
-        plagiarism_result = analyze_text(text)
-        ai_probability = check_ai_probability(text)
-        stats = calculate_document_stats(text)
-
-        # Create and serialize document
-        doc = Document.objects.create(
-            user=request.user,
-            content=text,
-            plagiarism_score=plagiarism_result['score'],
-            ai_score=ai_probability,
-            file=file,
-            **stats
-        )
-        
-        serializer = self.get_serializer(doc)
-        return Response(serializer.data, status=201)
