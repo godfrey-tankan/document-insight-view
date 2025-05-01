@@ -19,8 +19,7 @@ load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
-
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -66,8 +65,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'plagiarism_checker.urls'
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
+    "http://localhost:3000",
+    
+    "https://your-frontend-domain.com",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
