@@ -137,7 +137,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Explicitly set token lifespan
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),  # Explicitly set token lifespan
     'SIGNING_KEY': SECRET_KEY,  # Ensure it uses your project's secret key
 }
 CORS_ALLOW_ALL_ORIGINS = False  # Temporary for development
