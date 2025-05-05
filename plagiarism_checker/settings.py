@@ -20,7 +20,7 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG') == 'True'
 # ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
-ALLOWED_HOSTS=['docuverify.onrender.com', 'localhost','docuverify.onrender.com','plagiarism-ai-detector-nine.vercel.app']
+ALLOWED_HOSTS=['docuverify.onrender.com', 'localhost','docuverify.onrender.com','docuverify-kda9fwwyh-godfreys-projects-c4166770.vercel.app','192.168.10.109']
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -63,7 +63,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'plagiarism_checker.urls'
@@ -71,7 +70,7 @@ ROOT_URLCONF = 'plagiarism_checker.urls'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:3000",
-    
+    "http://192.168.10.109:8002",
     "https://plagiarism-ai-detector-nine.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = False
