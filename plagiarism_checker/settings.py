@@ -69,7 +69,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'plagiarism_checker.urls'
@@ -77,7 +76,11 @@ ROOT_URLCONF = 'plagiarism_checker.urls'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:3000",
+<<<<<<< HEAD
     "http://192.168.0.196:8002",
+=======
+    "http://192.168.10.109:8002",
+>>>>>>> f43d6c0ce6382f37198405175c21d2c6e22a0fa4
     "https://plagiarism-ai-detector-nine.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
