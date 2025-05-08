@@ -50,12 +50,12 @@ const Navbar = () => {
                 </Link>
               </Button>
 
-              <Button variant="outline" className="border-teal-600 text-teal-600 hover:bg-teal-50"
-              >
-                <Link to="/signup" className="text-teal-600 hover:text-teal-700 font-medium">
+              {/* <Button variant="outline" className="border-teal-600 text-teal-600 hover:bg-teal-50"
+              > */}
+                {/* <Link to="/signup" className="text-teal-600 hover:text-teal-700 font-medium">
                   Signup
-                </Link>
-              </Button>
+                </Link> */}
+              {/* </Button> */}
             </>
           )}
         </div>

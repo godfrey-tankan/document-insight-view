@@ -157,22 +157,24 @@ const DocumentUpload = ({ onAnalyze, isAnalyzing }: DocumentUploadProps) => {
       </div>
       
       {selectedFile && (
-        <div className="mt-4 p-3 bg-teal-50 rounded-lg flex justify-between items-center">
-          <div className="flex items-center">
-            {getFileFormatIcon()}
-            <div className="ml-3">
-              <p className="text-sm font-medium text-gray-900 truncate max-w-xs">{selectedFile.name}</p>
-              <p className="text-xs text-gray-500">
-                {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-              </p>
-            </div>
+        <div className="mt-4 p-3 bg-teal-50 rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+        <div className="flex items-center w-full sm:w-auto">
+          {getFileFormatIcon()}
+          <div className="ml-3 min-w-0">
+            <p className="text-sm font-medium text-gray-900  max-w-full sm:max-w-xs">
+              {selectedFile.name}
+            </p>
+            <p className="text-xs text-gray-500">
+              {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+            </p>
           </div>
-          <Button 
-            variant="default" 
-            className="bg-dashboard-primary hover:bg-teal-700"
-            disabled={isAnalyzing}
-            onClick={handleAnalyzeClick}
-          >
+        </div>
+        <Button 
+          variant="default" 
+          className="bg-dashboard-primary hover:bg-teal-700 w-full sm:w-auto"
+          disabled={isAnalyzing}
+          onClick={handleAnalyzeClick}
+        >
             {isAnalyzing ? 'Analyzing...' : 'Analyze'}
           </Button>
         </div>

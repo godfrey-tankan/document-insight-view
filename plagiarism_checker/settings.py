@@ -20,7 +20,13 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG') == 'True'
 # ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
-ALLOWED_HOSTS=['docuverify.onrender.com', 'localhost','docuverify.onrender.com','plagiarism-ai-detector-nine.vercel.app']
+ALLOWED_HOSTS=[
+    'docuverify.onrender.com',
+    'localhost',
+    'docuverify.onrender.com',
+    'plagiarism-ai-detector-nine.vercel.app',
+    '192.168.0.196',   
+    ]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -71,10 +77,10 @@ ROOT_URLCONF = 'plagiarism_checker.urls'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:3000",
-    
+    "http://192.168.0.196:8002",
     "https://plagiarism-ai-detector-nine.vercel.app",
 ]
-CORS_ALLOW_CREDENTIALS = False
+CORS_ALLOW_CREDENTIALS = True
 
 TEMPLATES = [
     {
@@ -140,7 +146,7 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),  # Explicitly set token lifespan
     'SIGNING_KEY': SECRET_KEY,  # Ensure it uses your project's secret key
 }
-CORS_ALLOW_ALL_ORIGINS = False  # Temporary for development
+CORS_ALLOW_ALL_ORIGINS = True  # Temporary for development
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
