@@ -167,7 +167,7 @@ const ResultsPanel = ({ analysis }: { analysis?: DocumentAnalysis }) => {
                     <XAxis dataKey="name" />
                     <YAxis />
                     <Tooltip />
-                    <Bar dataKey="value" fill="#3B82F6" />
+                    <Bar dataKey="value" fill="oklch(59.6% 0.145 163.225)" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
