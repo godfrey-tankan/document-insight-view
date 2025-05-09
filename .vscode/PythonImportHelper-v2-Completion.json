@@ -1,0 +1,1268 @@
+[
+    {
+        "label": "django.contrib.auth.models",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "AbstractUser",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "django.contrib.auth.validators",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.contrib.auth.validators",
+        "description": "django.contrib.auth.validators",
+        "detail": "django.contrib.auth.validators",
+        "documentation": {}
+    },
+    {
+        "label": "django.utils.timezone",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.utils.timezone",
+        "description": "django.utils.timezone",
+        "detail": "django.utils.timezone",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "reverse",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "APIView",
+        "importPath": "rest_framework.views",
+        "description": "rest_framework.views",
+        "isExtraImport": true,
+        "detail": "rest_framework.views",
+        "documentation": {}
+    },
+    {
+        "label": "APIView",
+        "importPath": "rest_framework.views",
+        "description": "rest_framework.views",
+        "isExtraImport": true,
+        "detail": "rest_framework.views",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "RefreshToken",
+        "importPath": "rest_framework_simplejwt.tokens",
+        "description": "rest_framework_simplejwt.tokens",
+        "isExtraImport": true,
+        "detail": "rest_framework_simplejwt.tokens",
+        "documentation": {}
+    },
+    {
+        "label": "authenticate",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "get_user_model",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "django.db.models.deletion",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.db.models.deletion",
+        "description": "django.db.models.deletion",
+        "detail": "django.db.models.deletion",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "DefaultRouter",
+        "importPath": "rest_framework.routers",
+        "description": "rest_framework.routers",
+        "isExtraImport": true,
+        "detail": "rest_framework.routers",
+        "documentation": {}
+    },
+    {
+        "label": "static",
+        "importPath": "django.conf.urls.static",
+        "description": "django.conf.urls.static",
+        "isExtraImport": true,
+        "detail": "django.conf.urls.static",
+        "documentation": {}
+    },
+    {
+        "label": "PyPDF2",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "PyPDF2",
+        "description": "PyPDF2",
+        "detail": "PyPDF2",
+        "documentation": {}
+    },
+    {
+        "label": "docx",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "docx",
+        "description": "docx",
+        "detail": "docx",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "textstat",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "textstat",
+        "description": "textstat",
+        "detail": "textstat",
+        "documentation": {}
+    },
+    {
+        "label": "torch",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "torch",
+        "description": "torch",
+        "detail": "torch",
+        "documentation": {}
+    },
+    {
+        "label": "TfidfVectorizer",
+        "importPath": "sklearn.feature_extraction.text",
+        "description": "sklearn.feature_extraction.text",
+        "isExtraImport": true,
+        "detail": "sklearn.feature_extraction.text",
+        "documentation": {}
+    },
+    {
+        "label": "cosine_similarity",
+        "importPath": "sklearn.metrics.pairwise",
+        "description": "sklearn.metrics.pairwise",
+        "isExtraImport": true,
+        "detail": "sklearn.metrics.pairwise",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "pipeline",
+        "importPath": "transformers",
+        "description": "transformers",
+        "isExtraImport": true,
+        "detail": "transformers",
+        "documentation": {}
+    },
+    {
+        "label": "action",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "rest_framework.exceptions",
+        "description": "rest_framework.exceptions",
+        "isExtraImport": true,
+        "detail": "rest_framework.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "JWTAuthentication",
+        "importPath": "rest_framework_simplejwt.authentication",
+        "description": "rest_framework_simplejwt.authentication",
+        "isExtraImport": true,
+        "detail": "rest_framework_simplejwt.authentication",
+        "documentation": {}
+    },
+    {
+        "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "csrf_exempt",
+        "importPath": "django.views.decorators.csrf",
+        "description": "django.views.decorators.csrf",
+        "isExtraImport": true,
+        "detail": "django.views.decorators.csrf",
+        "documentation": {}
+    },
+    {
+        "label": "method_decorator",
+        "importPath": "django.utils.decorators",
+        "description": "django.utils.decorators",
+        "isExtraImport": true,
+        "detail": "django.utils.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "hashlib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "hashlib",
+        "description": "hashlib",
+        "detail": "hashlib",
+        "documentation": {}
+    },
+    {
+        "label": "annotations",
+        "importPath": "__future__",
+        "description": "__future__",
+        "isExtraImport": true,
+        "detail": "__future__",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "site",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "site",
+        "description": "site",
+        "detail": "site",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "get_asgi_application",
+        "importPath": "django.core.asgi",
+        "description": "django.core.asgi",
+        "isExtraImport": true,
+        "detail": "django.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "get_wsgi_application",
+        "importPath": "django.core.wsgi",
+        "description": "django.core.wsgi",
+        "isExtraImport": true,
+        "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "accounts.migrations.0001_initial",
+        "description": "accounts.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        ('auth', '0012_alter_user_first_name_max_length'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='CustomUser',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
+        "detail": "accounts.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "AccountsConfig",
+        "kind": 6,
+        "importPath": "accounts.apps",
+        "description": "accounts.apps",
+        "peekOfCode": "class AccountsConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'accounts'",
+        "detail": "accounts.apps",
+        "documentation": {}
+    },
+    {
+        "label": "CustomUser",
+        "kind": 6,
+        "importPath": "accounts.models",
+        "description": "accounts.models",
+        "peekOfCode": "class CustomUser(AbstractUser):\n    is_verified = models.BooleanField(default=False)\n    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)\n    institution = models.CharField(max_length=100, blank=True)\n    def __str__(self):\n        return self.email",
+        "detail": "accounts.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserRegistrationSerializer",
+        "kind": 6,
+        "importPath": "accounts.serializers",
+        "description": "accounts.serializers",
+        "peekOfCode": "class UserRegistrationSerializer(serializers.ModelSerializer):\n    password = serializers.CharField(write_only=True)\n    class Meta:\n        model = CustomUser\n        fields = ['email', 'password', 'first_name', 'last_name']\n        extra_kwargs = {'password': {'write_only': True}}\n    def create(self, validated_data):\n        user = CustomUser.objects.create_user(\n            email=validated_data['email'],\n            username=validated_data['email'],",
+        "detail": "accounts.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "UserLoginSerializer",
+        "kind": 6,
+        "importPath": "accounts.serializers",
+        "description": "accounts.serializers",
+        "peekOfCode": "class UserLoginSerializer(serializers.Serializer):\n    email = serializers.EmailField()\n    password = serializers.CharField()",
+        "detail": "accounts.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "accounts.urls",
+        "description": "accounts.urls",
+        "peekOfCode": "urlpatterns = [\n    path('register/', RegistrationView.as_view(), name='register'),\n    path('login/', LoginView.as_view(), name='login'),\n]",
+        "detail": "accounts.urls",
+        "documentation": {}
+    },
+    {
+        "label": "BaseView",
+        "kind": 6,
+        "importPath": "accounts.views",
+        "description": "accounts.views",
+        "peekOfCode": "class BaseView(APIView):\n    authentication_classes = []\n    permission_classes = []\nclass RegistrationView(BaseView):\n    def post(self, request):\n        serializer = UserRegistrationSerializer(data=request.data)\n        if serializer.is_valid():\n            #check is user already exists\n            if serializer.is_email_exists() or serializer.is_username_exists():\n                return Response({'message': 'User already exist. Please verify email.'",
+        "detail": "accounts.views",
+        "documentation": {}
+    },
+    {
+        "label": "RegistrationView",
+        "kind": 6,
+        "importPath": "accounts.views",
+        "description": "accounts.views",
+        "peekOfCode": "class RegistrationView(BaseView):\n    def post(self, request):\n        serializer = UserRegistrationSerializer(data=request.data)\n        if serializer.is_valid():\n            #check is user already exists\n            if serializer.is_email_exists() or serializer.is_username_exists():\n                return Response({'message': 'User already exist. Please verify email.'\n            }, status=status.HTTP_400_BAD_REQUEST)\n            user = serializer.save()\n            # Send verification email here (we'll implement later)",
+        "detail": "accounts.views",
+        "documentation": {}
+    },
+    {
+        "label": "LoginView",
+        "kind": 6,
+        "importPath": "accounts.views",
+        "description": "accounts.views",
+        "peekOfCode": "class LoginView(BaseView):\n    def post(self, request):\n        serializer = UserLoginSerializer(data=request.data)\n        if serializer.is_valid():\n            user = authenticate(\n                username=serializer.validated_data['email'],\n                password=serializer.validated_data['password']\n            )\n            if user:\n                refresh = RefreshToken.for_user(user)",
+        "detail": "accounts.views",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "documents.migrations.0001_initial",
+        "description": "documents.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='Document',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
+        "detail": "documents.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "documents.migrations.0002_document_character_count_document_page_count_and_more",
+        "description": "documents.migrations.0002_document_character_count_document_page_count_and_more",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('documents', '0001_initial'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='document',\n            name='character_count',\n            field=models.IntegerField(default=0),\n            preserve_default=False,",
+        "detail": "documents.migrations.0002_document_character_count_document_page_count_and_more",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "documents.migrations.0003_document_content_hash",
+        "description": "documents.migrations.0003_document_content_hash",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('documents', '0002_document_character_count_document_page_count_and_more'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='document',\n            name='content_hash',\n            field=models.CharField(default='jkxkqjqnj', max_length=64, unique=True),\n            preserve_default=False,",
+        "detail": "documents.migrations.0003_document_content_hash",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "documents.migrations.0004_document__highlights",
+        "description": "documents.migrations.0004_document__highlights",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('documents', '0003_document_content_hash'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='document',\n            name='_highlights',\n            field=models.JSONField(default=list),\n        ),",
+        "detail": "documents.migrations.0004_document__highlights",
+        "documentation": {}
+    },
+    {
+        "label": "DocumentAdmin",
+        "kind": 6,
+        "importPath": "documents.admin",
+        "description": "documents.admin",
+        "peekOfCode": "class DocumentAdmin(admin.ModelAdmin):\n    list_display = ('id','user', 'content_hash')\n    search_fields = ('user','content_hash')\n    list_filter = ('created_at',)\n    ordering = ('-created_at',)\n    date_hierarchy = 'created_at'",
+        "detail": "documents.admin",
+        "documentation": {}
+    },
+    {
+        "label": "DocumentsConfig",
+        "kind": 6,
+        "importPath": "documents.apps",
+        "description": "documents.apps",
+        "peekOfCode": "class DocumentsConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'documents'",
+        "detail": "documents.apps",
+        "documentation": {}
+    },
+    {
+        "label": "Document",
+        "kind": 6,
+        "importPath": "documents.models",
+        "description": "documents.models",
+        "peekOfCode": "class Document(models.Model):\n    user = models.ForeignKey(User, on_delete=models.CASCADE)\n    content = models.TextField()\n    plagiarism_score = models.FloatField()\n    ai_score = models.FloatField()\n    _highlights = models.JSONField(default=list)\n    content_hash= models.CharField(max_length=64, unique=True)\n    file = models.FileField(upload_to='documents/')\n    created_at = models.DateTimeField(auto_now_add=True)\n    word_count = models.IntegerField()",
+        "detail": "documents.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "kind": 5,
+        "importPath": "documents.models",
+        "description": "documents.models",
+        "peekOfCode": "User = get_user_model()\nclass Document(models.Model):\n    user = models.ForeignKey(User, on_delete=models.CASCADE)\n    content = models.TextField()\n    plagiarism_score = models.FloatField()\n    ai_score = models.FloatField()\n    _highlights = models.JSONField(default=list)\n    content_hash= models.CharField(max_length=64, unique=True)\n    file = models.FileField(upload_to='documents/')\n    created_at = models.DateTimeField(auto_now_add=True)",
+        "detail": "documents.models",
+        "documentation": {}
+    },
+    {
+        "label": "DocumentStatsSerializer",
+        "kind": 6,
+        "importPath": "documents.serializers",
+        "description": "documents.serializers",
+        "peekOfCode": "class DocumentStatsSerializer(serializers.Serializer):\n    word_count = serializers.IntegerField(source='word_count')\n    character_count = serializers.IntegerField(source='character_count')\n    page_count = serializers.IntegerField(source='page_count')\n    reading_time = serializers.IntegerField(source='reading_time')\nclass AIMarkerSerializer(serializers.Serializer):\n    type = serializers.CharField()\n    confidence = serializers.FloatField()\n    sections = serializers.ListField(child=serializers.CharField())\nclass SourceMatchSerializer(serializers.Serializer):",
+        "detail": "documents.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "AIMarkerSerializer",
+        "kind": 6,
+        "importPath": "documents.serializers",
+        "description": "documents.serializers",
+        "peekOfCode": "class AIMarkerSerializer(serializers.Serializer):\n    type = serializers.CharField()\n    confidence = serializers.FloatField()\n    sections = serializers.ListField(child=serializers.CharField())\nclass SourceMatchSerializer(serializers.Serializer):\n    source = serializers.CharField()\n    url = serializers.URLField()\n    match_percentage = serializers.FloatField()\n    snippets = serializers.ListField(child=serializers.CharField())\nclass TextAnalysisSerializer(serializers.Serializer):",
+        "detail": "documents.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "SourceMatchSerializer",
+        "kind": 6,
+        "importPath": "documents.serializers",
+        "description": "documents.serializers",
+        "peekOfCode": "class SourceMatchSerializer(serializers.Serializer):\n    source = serializers.CharField()\n    url = serializers.URLField()\n    match_percentage = serializers.FloatField()\n    snippets = serializers.ListField(child=serializers.CharField())\nclass TextAnalysisSerializer(serializers.Serializer):\n    original_content = serializers.FloatField()\n    plagiarized_content = serializers.FloatField()\n    ai_generated_content = serializers.FloatField()\nclass DocumentSerializer(serializers.ModelSerializer):",
+        "detail": "documents.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "TextAnalysisSerializer",
+        "kind": 6,
+        "importPath": "documents.serializers",
+        "description": "documents.serializers",
+        "peekOfCode": "class TextAnalysisSerializer(serializers.Serializer):\n    original_content = serializers.FloatField()\n    plagiarized_content = serializers.FloatField()\n    ai_generated_content = serializers.FloatField()\nclass DocumentSerializer(serializers.ModelSerializer):\n    fileUrl = serializers.SerializerMethodField()\n    highlights = serializers.SerializerMethodField()\n    class Meta:\n        model = Document\n        fields = '__all__'",
+        "detail": "documents.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "DocumentSerializer",
+        "kind": 6,
+        "importPath": "documents.serializers",
+        "description": "documents.serializers",
+        "peekOfCode": "class DocumentSerializer(serializers.ModelSerializer):\n    fileUrl = serializers.SerializerMethodField()\n    highlights = serializers.SerializerMethodField()\n    class Meta:\n        model = Document\n        fields = '__all__'\n    def get_file_url(self, obj):\n        request = self.context.get('request')\n        if obj.file:\n            return request.build_absolute_uri(obj.file.url)",
+        "detail": "documents.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "documents.urls",
+        "description": "documents.urls",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'documents', DocumentViewSet, basename='document')\nurlpatterns = [\n    path('', include(router.urls)),\n    # Document Analysis Endpoint\n    path('analyze/', AnalyzeDocumentView.as_view(), name='analyze-document'),\n]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)",
+        "detail": "documents.urls",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "documents.urls",
+        "description": "documents.urls",
+        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    # Document Analysis Endpoint\n    path('analyze/', AnalyzeDocumentView.as_view(), name='analyze-document'),\n]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)",
+        "detail": "documents.urls",
+        "documentation": {}
+    },
+    {
+        "label": "extract_text_from_file",
+        "kind": 2,
+        "importPath": "documents.utils",
+        "description": "documents.utils",
+        "peekOfCode": "def extract_text_from_file(file):\n    \"\"\"Extract text with better error handling.\"\"\"\n    text = \"\"\n    logger.info(f\"Starting extraction for {file.name}\")\n    if file.name.lower().endswith('.pdf'):\n        try:\n            file.seek(0)\n            reader = PyPDF2.PdfReader(file)\n            if not reader.pages:\n                raise ValueError(\"PDF has no readable pages\")",
+        "detail": "documents.utils",
+        "documentation": {}
+    },
+    {
+        "label": "analyze_text",
+        "kind": 2,
+        "importPath": "documents.utils",
+        "description": "documents.utils",
+        "peekOfCode": "def analyze_text(content_hash, text):\n    \"\"\"\n    Plagiarism detection via character 5-gram sliding windows\n    against all other docs (excluding the one with this hash).\n    \"\"\"\n    # fetch all other documents' contents\n    others = list(\n        Document.objects\n        .exclude(content_hash=content_hash)\n        .values_list('content', flat=True)",
+        "detail": "documents.utils",
+        "documentation": {}
+    },
+    {
+        "label": "check_ai_probability",
+        "kind": 2,
+        "importPath": "documents.utils",
+        "description": "documents.utils",
+        "peekOfCode": "def check_ai_probability(text, plagiarism_highlights=None, plagiarism_score=0):\n    \"\"\"\n    AI detection: simple chunking, no overlap.\n    \"\"\"\n    plagiarism_score = plagiarism_score or 0\n    if len(text) < 300:\n        return {'score': 0.0, 'highlights': []}\n    # initialize once\n    if not hasattr(check_ai_probability, 'detector'):\n        check_ai_probability.detector = pipeline(",
+        "detail": "documents.utils",
+        "documentation": {}
+    },
+    {
+        "label": "calculate_position",
+        "kind": 2,
+        "importPath": "documents.utils",
+        "description": "documents.utils",
+        "peekOfCode": "def calculate_position(full_text, start, end):\n    \"\"\"Return percentage-based box for front-end.\"\"\"\n    total = len(full_text)\n    return {\n        'page': 1,\n        'x': round(start / total * 100, 2),\n        'y': 0,  # not used\n        'width': round((end - start) / total * 100, 2),\n        'height': 2\n    }",
+        "detail": "documents.utils",
+        "documentation": {}
+    },
+    {
+        "label": "calculate_document_stats",
+        "kind": 2,
+        "importPath": "documents.utils",
+        "description": "documents.utils",
+        "peekOfCode": "def calculate_document_stats(text):\n    \"\"\"Word count, char count, pages, reading time (mins).\"\"\"\n    words = len(text.split())\n    chars = len(text)\n    pages = max(1, (chars // 1500) + 1)\n    # estimate reading at 200 wpm → words/200 minutes → ms_per_char used in textstat\n    try:\n        read = textstat.reading_time(text, ms_per_char=14.69)\n    except Exception:\n        read = max(1, words // 200)",
+        "detail": "documents.utils",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "documents.utils",
+        "description": "documents.utils",
+        "peekOfCode": "logger = logging.getLogger(__name__)\ndef extract_text_from_file(file):\n    \"\"\"Extract text with better error handling.\"\"\"\n    text = \"\"\n    logger.info(f\"Starting extraction for {file.name}\")\n    if file.name.lower().endswith('.pdf'):\n        try:\n            file.seek(0)\n            reader = PyPDF2.PdfReader(file)\n            if not reader.pages:",
+        "detail": "documents.utils",
+        "documentation": {}
+    },
+    {
+        "label": "AnalyzeDocumentView",
+        "kind": 6,
+        "importPath": "documents.views",
+        "description": "documents.views",
+        "peekOfCode": "class AnalyzeDocumentView(APIView):\n    authentication_classes = [JWTAuthentication]\n    permission_classes = [IsAuthenticated]\n    def post(self, request):\n        try:\n            # 1. file in request?\n            if 'document' not in request.FILES:\n                return Response({\"error\": \"No document provided\"}, status=400)\n            file = request.FILES['document']\n            # 2. size limit",
+        "detail": "documents.views",
+        "documentation": {}
+    },
+    {
+        "label": "DocumentViewSet",
+        "kind": 6,
+        "importPath": "documents.views",
+        "description": "documents.views",
+        "peekOfCode": "class DocumentViewSet(viewsets.ModelViewSet):\n    queryset = Document.objects.all()\n    serializer_class = DocumentSerializer\n    authentication_classes = [JWTAuthentication]\n    permission_classes = [IsAuthenticated]\n    def perform_create(self, serializer):\n        file = self.request.FILES.get('file')\n        if file:\n            text = extract_text_from_file(file)\n            content_hash = calculate_content_hash(text)",
+        "detail": "documents.views",
+        "documentation": {}
+    },
+    {
+        "label": "calculate_content_hash",
+        "kind": 2,
+        "importPath": "documents.views",
+        "description": "documents.views",
+        "peekOfCode": "def calculate_content_hash(text):\n    return hashlib.md5(text.encode('utf-8')).hexdigest()\n@method_decorator(csrf_exempt, name='dispatch')\nclass AnalyzeDocumentView(APIView):\n    authentication_classes = [JWTAuthentication]\n    permission_classes = [IsAuthenticated]\n    def post(self, request):\n        try:\n            # 1. file in request?\n            if 'document' not in request.FILES:",
+        "detail": "documents.views",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "documents.views",
+        "description": "documents.views",
+        "peekOfCode": "logger = logging.getLogger(__name__)\ndef calculate_content_hash(text):\n    return hashlib.md5(text.encode('utf-8')).hexdigest()\n@method_decorator(csrf_exempt, name='dispatch')\nclass AnalyzeDocumentView(APIView):\n    authentication_classes = [JWTAuthentication]\n    permission_classes = [IsAuthenticated]\n    def post(self, request):\n        try:\n            # 1. file in request?",
+        "detail": "documents.views",
+        "documentation": {}
+    },
+    {
+        "label": "bin_dir",
+        "kind": 5,
+        "importPath": "env.bin.activate_this",
+        "description": "env.bin.activate_this",
+        "peekOfCode": "bin_dir = os.path.dirname(abs_file)\nbase = bin_dir[: -len(\"bin\") - 1]  # strip away the bin part from the __file__, plus the path separator\n# prepend bin to PATH (this file is inside the bin directory)\nos.environ[\"PATH\"] = os.pathsep.join([bin_dir, *os.environ.get(\"PATH\", \"\").split(os.pathsep)])\nos.environ[\"VIRTUAL_ENV\"] = base  # virtual env is right above bin directory\nos.environ[\"VIRTUAL_ENV_PROMPT\"] = \"\" or os.path.basename(base)  # noqa: SIM222\n# add the virtual environments libraries to the host python import mechanism\nprev_length = len(sys.path)\nfor lib in \"../lib/python3.12/site-packages\".split(os.pathsep):\n    path = os.path.realpath(os.path.join(bin_dir, lib))",
+        "detail": "env.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "base",
+        "kind": 5,
+        "importPath": "env.bin.activate_this",
+        "description": "env.bin.activate_this",
+        "peekOfCode": "base = bin_dir[: -len(\"bin\") - 1]  # strip away the bin part from the __file__, plus the path separator\n# prepend bin to PATH (this file is inside the bin directory)\nos.environ[\"PATH\"] = os.pathsep.join([bin_dir, *os.environ.get(\"PATH\", \"\").split(os.pathsep)])\nos.environ[\"VIRTUAL_ENV\"] = base  # virtual env is right above bin directory\nos.environ[\"VIRTUAL_ENV_PROMPT\"] = \"\" or os.path.basename(base)  # noqa: SIM222\n# add the virtual environments libraries to the host python import mechanism\nprev_length = len(sys.path)\nfor lib in \"../lib/python3.12/site-packages\".split(os.pathsep):\n    path = os.path.realpath(os.path.join(bin_dir, lib))\n    site.addsitedir(path.decode(\"utf-8\") if \"\" else path)",
+        "detail": "env.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "os.environ[\"PATH\"]",
+        "kind": 5,
+        "importPath": "env.bin.activate_this",
+        "description": "env.bin.activate_this",
+        "peekOfCode": "os.environ[\"PATH\"] = os.pathsep.join([bin_dir, *os.environ.get(\"PATH\", \"\").split(os.pathsep)])\nos.environ[\"VIRTUAL_ENV\"] = base  # virtual env is right above bin directory\nos.environ[\"VIRTUAL_ENV_PROMPT\"] = \"\" or os.path.basename(base)  # noqa: SIM222\n# add the virtual environments libraries to the host python import mechanism\nprev_length = len(sys.path)\nfor lib in \"../lib/python3.12/site-packages\".split(os.pathsep):\n    path = os.path.realpath(os.path.join(bin_dir, lib))\n    site.addsitedir(path.decode(\"utf-8\") if \"\" else path)\nsys.path[:] = sys.path[prev_length:] + sys.path[0:prev_length]\nsys.real_prefix = sys.prefix",
+        "detail": "env.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "os.environ[\"VIRTUAL_ENV\"]",
+        "kind": 5,
+        "importPath": "env.bin.activate_this",
+        "description": "env.bin.activate_this",
+        "peekOfCode": "os.environ[\"VIRTUAL_ENV\"] = base  # virtual env is right above bin directory\nos.environ[\"VIRTUAL_ENV_PROMPT\"] = \"\" or os.path.basename(base)  # noqa: SIM222\n# add the virtual environments libraries to the host python import mechanism\nprev_length = len(sys.path)\nfor lib in \"../lib/python3.12/site-packages\".split(os.pathsep):\n    path = os.path.realpath(os.path.join(bin_dir, lib))\n    site.addsitedir(path.decode(\"utf-8\") if \"\" else path)\nsys.path[:] = sys.path[prev_length:] + sys.path[0:prev_length]\nsys.real_prefix = sys.prefix\nsys.prefix = base",
+        "detail": "env.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "os.environ[\"VIRTUAL_ENV_PROMPT\"]",
+        "kind": 5,
+        "importPath": "env.bin.activate_this",
+        "description": "env.bin.activate_this",
+        "peekOfCode": "os.environ[\"VIRTUAL_ENV_PROMPT\"] = \"\" or os.path.basename(base)  # noqa: SIM222\n# add the virtual environments libraries to the host python import mechanism\nprev_length = len(sys.path)\nfor lib in \"../lib/python3.12/site-packages\".split(os.pathsep):\n    path = os.path.realpath(os.path.join(bin_dir, lib))\n    site.addsitedir(path.decode(\"utf-8\") if \"\" else path)\nsys.path[:] = sys.path[prev_length:] + sys.path[0:prev_length]\nsys.real_prefix = sys.prefix\nsys.prefix = base",
+        "detail": "env.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "prev_length",
+        "kind": 5,
+        "importPath": "env.bin.activate_this",
+        "description": "env.bin.activate_this",
+        "peekOfCode": "prev_length = len(sys.path)\nfor lib in \"../lib/python3.12/site-packages\".split(os.pathsep):\n    path = os.path.realpath(os.path.join(bin_dir, lib))\n    site.addsitedir(path.decode(\"utf-8\") if \"\" else path)\nsys.path[:] = sys.path[prev_length:] + sys.path[0:prev_length]\nsys.real_prefix = sys.prefix\nsys.prefix = base",
+        "detail": "env.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "sys.path[:]",
+        "kind": 5,
+        "importPath": "env.bin.activate_this",
+        "description": "env.bin.activate_this",
+        "peekOfCode": "sys.path[:] = sys.path[prev_length:] + sys.path[0:prev_length]\nsys.real_prefix = sys.prefix\nsys.prefix = base",
+        "detail": "env.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "sys.real_prefix",
+        "kind": 5,
+        "importPath": "env.bin.activate_this",
+        "description": "env.bin.activate_this",
+        "peekOfCode": "sys.real_prefix = sys.prefix\nsys.prefix = base",
+        "detail": "env.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "sys.prefix",
+        "kind": 5,
+        "importPath": "env.bin.activate_this",
+        "description": "env.bin.activate_this",
+        "peekOfCode": "sys.prefix = base",
+        "detail": "env.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "_Known",
+        "kind": 6,
+        "importPath": "frontend2.node_modules.flatted.python.flatted",
+        "description": "frontend2.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _Known:\n    def __init__(self):\n        self.key = []\n        self.value = []\nclass _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0",
+        "detail": "frontend2.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "_String",
+        "kind": 6,
+        "importPath": "frontend2.node_modules.flatted.python.flatted",
+        "description": "frontend2.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0\n    for _ in value:\n        keys.append(i)\n        i += 1\n    return keys",
+        "detail": "frontend2.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "parse",
+        "kind": 2,
+        "importPath": "frontend2.node_modules.flatted.python.flatted",
+        "description": "frontend2.node_modules.flatted.python.flatted",
+        "peekOfCode": "def parse(value, *args, **kwargs):\n    json = _json.loads(value, *args, **kwargs)\n    wrapped = []\n    for value in json:\n        wrapped.append(_wrap(value))\n    input = []\n    for value in wrapped:\n        if isinstance(value, _String):\n            input.append(value.value)\n        else:",
+        "detail": "frontend2.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "kind": 2,
+        "importPath": "frontend2.node_modules.flatted.python.flatted",
+        "description": "frontend2.node_modules.flatted.python.flatted",
+        "peekOfCode": "def stringify(value, *args, **kwargs):\n    known = _Known()\n    input = []\n    output = []\n    i = int(_index(known, input, value))\n    while i < len(input):\n        output.append(_transform(known, input, input[i]))\n        i += 1\n    return _json.dumps(output, *args, **kwargs)",
+        "detail": "frontend2.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "plagiarism_checker.asgi",
+        "description": "plagiarism_checker.asgi",
+        "peekOfCode": "application = get_asgi_application()",
+        "detail": "plagiarism_checker.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "SECRET_KEY",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "SECRET_KEY = os.getenv('SECRET_KEY')\nDEBUG = os.getenv('DEBUG') == 'True'\n# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')\nALLOWED_HOSTS=[\n    'docuverify.onrender.com',\n    'localhost',\n    'docuverify.onrender.com',\n    'plagiarism-ai-detector-nine.vercel.app',\n    '192.168.0.196',   \n    ]",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "DEBUG = os.getenv('DEBUG') == 'True'\n# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')\nALLOWED_HOSTS=[\n    'docuverify.onrender.com',\n    'localhost',\n    'docuverify.onrender.com',\n    'plagiarism-ai-detector-nine.vercel.app',\n    '192.168.0.196',   \n    ]\n# Build paths inside the project like this: BASE_DIR / 'subdir'.",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\n# SECURITY WARNING: don't run with debug turned on in production!\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "INSTALLED_APPS",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    #third party\n    'rest_framework',\n    'rest_framework_simplejwt',",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MIDDLEWARE",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "MIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',\n]",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT_URLCONF",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "ROOT_URLCONF = 'plagiarism_checker.urls'\nCORS_ALLOWED_ORIGINS = [\n    \"http://localhost:8080\",\n    \"http://localhost:3000\",\n    \"http://192.168.0.196:8002\",\n    \"https://plagiarism-ai-detector-nine.vercel.app\",\n]\nCORS_ALLOW_CREDENTIALS = True\nTEMPLATES = [\n    {",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CORS_ALLOWED_ORIGINS",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "CORS_ALLOWED_ORIGINS = [\n    \"http://localhost:8080\",\n    \"http://localhost:3000\",\n    \"http://192.168.0.196:8002\",\n    \"https://plagiarism-ai-detector-nine.vercel.app\",\n]\nCORS_ALLOW_CREDENTIALS = True\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CORS_ALLOW_CREDENTIALS",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "CORS_ALLOW_CREDENTIALS = True\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TEMPLATES",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',\n                'django.contrib.messages.context_processors.messages',",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "WSGI_APPLICATION",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "WSGI_APPLICATION = 'plagiarism_checker.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/5.2/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation\n# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_PASSWORD_VALIDATORS",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',\n    },",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_USER_MODEL",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "AUTH_USER_MODEL = 'accounts.CustomUser'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'DEFAULT_PERMISSION_CLASSES': [\n        'rest_framework.permissions.IsAuthenticated',\n    ]\n}\nSIMPLE_JWT = {",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "REST_FRAMEWORK",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'DEFAULT_PERMISSION_CLASSES': [\n        'rest_framework.permissions.IsAuthenticated',\n    ]\n}\nSIMPLE_JWT = {\n    'AUTH_HEADER_TYPES': ('Bearer',),",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SIMPLE_JWT",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "SIMPLE_JWT = {\n    'AUTH_HEADER_TYPES': ('Bearer',),\n    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),  # Explicitly set token lifespan\n    'SIGNING_KEY': SECRET_KEY,  # Ensure it uses your project's secret key\n}\nCORS_ALLOW_ALL_ORIGINS = True  # Temporary for development\nMEDIA_URL = '/media/'\nMEDIA_ROOT = os.path.join(BASE_DIR, 'media')\n# Internationalization\n# https://docs.djangoproject.com/en/5.2/topics/i18n/",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CORS_ALLOW_ALL_ORIGINS",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "CORS_ALLOW_ALL_ORIGINS = True  # Temporary for development\nMEDIA_URL = '/media/'\nMEDIA_ROOT = os.path.join(BASE_DIR, 'media')\n# Internationalization\n# https://docs.djangoproject.com/en/5.2/topics/i18n/\nLANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MEDIA_URL",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "MEDIA_URL = '/media/'\nMEDIA_ROOT = os.path.join(BASE_DIR, 'media')\n# Internationalization\n# https://docs.djangoproject.com/en/5.2/topics/i18n/\nLANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.2/howto/static-files/",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MEDIA_ROOT",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "MEDIA_ROOT = os.path.join(BASE_DIR, 'media')\n# Internationalization\n# https://docs.djangoproject.com/en/5.2/topics/i18n/\nLANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.2/howto/static-files/\nSTATIC_URL = 'static/'",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LANGUAGE_CODE",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIME_ZONE",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_I18N",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_TZ",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_URL",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "STATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_AUTO_FIELD",
+        "kind": 5,
+        "importPath": "plagiarism_checker.settings",
+        "description": "plagiarism_checker.settings",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "plagiarism_checker.settings",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "plagiarism_checker.urls",
+        "description": "plagiarism_checker.urls",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/auth/', include('accounts.urls')),\n    path('api/', include('documents.urls')),\n]",
+        "detail": "plagiarism_checker.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "plagiarism_checker.wsgi",
+        "description": "plagiarism_checker.wsgi",
+        "peekOfCode": "application = get_wsgi_application()",
+        "detail": "plagiarism_checker.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "manage",
+        "description": "manage",
+        "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'plagiarism_checker.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
+        "detail": "manage",
+        "documentation": {}
+    }
+]
