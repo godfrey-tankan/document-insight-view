@@ -1,5 +1,3 @@
-Here’s your content beautifully formatted in **Markdown** with clear headers, code blocks, and bullet points to give it a modern and readable style:
-
 ---
 
 # 🧠 How the **DocuVerify** System Works
@@ -245,5 +243,3 @@ The **DocuVerify** system combines:
 Together, it provides **actionable, transparent, and detailed insights** for document authenticity.
 
 ---
-
-Would you like this exported as a `.md` file or embedded into your documentation system?
