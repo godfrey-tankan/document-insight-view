@@ -137,7 +137,7 @@ def check_ai_probability(text, plagiarism_highlights=None, plagiarism_score=0):
             })
 
     avg = round(sum(scores) / len(scores), 1) if scores else 0.0
-    # cap so that plagiarism + ai ≤ 100
+    # caping so that plagiarism + ai ≤ 100
     cap = max(0.0, 100.0 - plagiarism_score)
     return {
         'score': min(avg, cap),
@@ -162,7 +162,6 @@ def calculate_document_stats(text):
     words = len(text.split())
     chars = len(text)
     pages = max(1, (chars // 1500) + 1)
-    # estimate reading at 200 wpm → words/200 minutes → ms_per_char used in textstat
     try:
         read = textstat.reading_time(text, ms_per_char=14.69)
     except Exception:

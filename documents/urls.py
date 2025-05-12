@@ -13,7 +13,6 @@ router.register(r'documents', DocumentViewSet, basename='document')
 urlpatterns = [
     path('', include(router.urls)),
     
-    # Document Analysis Endpoint
     path('analyze/', AnalyzeDocumentView.as_view(), name='analyze-document'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
