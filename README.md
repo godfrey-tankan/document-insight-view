@@ -8,6 +8,11 @@ Below is a detailed explanation of how the system works—from account creation 
 
 ---
 
+## Links
+
+deployed: https://plagiarism-ai-detector-nine.vercel.app
+Youtube vedio link: https://youtu.be/eT_C8uvWqHY
+
 ## 1. 🔐 User Authentication
 
 ### 🧾 Account Creation
